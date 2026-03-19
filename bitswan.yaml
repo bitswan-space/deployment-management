@@ -4,3 +4,15 @@ deployments:
     checksum: 5f3fed5bfb7efed0aa9d303303e214b6b0fdbd32
     relative_path: deployment-management/internal-frontend
     stage: dev
+  internal-frontend-live-dev:
+    active: true
+    checksum: live-dev
+    expose: false
+    expose_to:
+    - /Example Organization
+    id: 6d205ba9-cf63-44ee-a1aa-d113ceb43fe4
+    image: internal/internal-frontend:sha85dcfbd49c923c4f2ca387d3041e22062dac4d5a
+    mount_path: /app/
+    port: 8080
+    relative_path: deployment-management/internal-frontend
+    stage: live-dev
