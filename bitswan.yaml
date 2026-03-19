@@ -63,3 +63,7 @@ deployments:
     port: 8080
     relative_path: deployment-management/internal-frontend
     stage: live-dev
+  internal-frontend-staging:
+    active: true
+    checksum: b79a86623d2cb8120f15d30c2f302db2b3c76521
+    stage: staging
