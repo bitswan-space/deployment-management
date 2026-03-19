@@ -97,13 +97,10 @@ function App() {
     i18n.changeLanguage(e.target.value)
   }
 
-  const latestUrl = `${(backend.baseUrl || '')}/automation/latest?os=${selectedOS}&arch=${selectedArch}`
-  const installCmd = selectedOS === 'windows'
-    ? `curl -Lo bitswan.exe "${latestUrl}"`
-    : `curl -Lo bitswan ${latestUrl} && chmod +x bitswan`
-  const pathCmd = selectedOS === 'windows'
-    ? null
-    : `sudo mv bitswan /usr/local/bin/`
+  const os = selectedOS === 'windows' ? 'linux' : selectedOS
+  const latestUrl = `${(backend.baseUrl || '')}/automation/latest?os=${os}&arch=${selectedArch}`
+  const installCmd = `curl -Lo bitswan ${latestUrl} && chmod +x bitswan`
+  const pathCmd = `sudo mv bitswan /usr/local/bin/`
 
   return (
     <div className="app">
@@ -146,7 +143,7 @@ function App() {
                     className={`picker-btn ${selectedOS === os ? 'active' : ''}`}
                     onClick={() => { setSelectedOS(os); setSelectedArch(os === 'darwin' ? 'arm64' : 'amd64') }}
                   >
-                    {os === 'darwin' ? 'macOS' : os === 'linux' ? 'Linux' : 'Windows'}
+                    {os === 'darwin' ? 'macOS' : os === 'linux' ? 'Linux' : 'Windows WSL'}
                   </button>
                 ))}
               </div>
@@ -167,7 +164,7 @@ function App() {
             </div>
           </div>
           <CopyBlock text={installCmd} />
-          {pathCmd && <CopyBlock text={pathCmd} />}
+          <CopyBlock text={pathCmd} />
         </div>
 
         <div className="install-card">
@@ -175,10 +172,17 @@ function App() {
             <h3>{t('install.step2Title')}</h3>
             <p>{t('install.step2Desc')}</p>
           </div>
+          <CopyBlock text="bitswan automation-server-daemon init" />
+        </div>
+
+        <div className="install-card">
+          <div className="install-card-header">
+            <h3>{t('install.step3Title')}</h3>
+            <p>{t('install.step3Desc')}</p>
+          </div>
           <div className="init-options">
             <div className="init-option">
               <span className="init-label">{t('install.saas')}</span>
-              <CopyBlock text="bitswan workspace init my-workspace" />
             </div>
             <div className="init-option">
               <span className="init-label">{t('install.onPremPublic')}</span>
@@ -197,14 +201,6 @@ function App() {
               <CopyBlock text="bitswan workspace init --remote=git@github.com:<your-name>/<your-repo>.git my-workspace" />
             </div>
           </div>
-        </div>
-
-        <div className="install-card">
-          <div className="install-card-header">
-            <h3>{t('install.step3Title')}</h3>
-            <p>{t('install.step3Desc')}</p>
-          </div>
-          <CopyBlock text="bitswan automation-server-daemon init" />
         </div>
       </section>
 
