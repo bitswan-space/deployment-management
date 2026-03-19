@@ -2,6 +2,40 @@ networks:
   bitswan_network:
     external: true
 services:
+  backend-live-dev:
+    container_name: deployment-management__backend-live-dev
+    env_file:
+    - /gitops/secrets/minio-dev
+    - /gitops/secrets/postgres-dev
+    environment:
+      BITSWAN_AUTOMATION_STAGE: live-dev
+      BITSWAN_AUTOMATION_URL: https://deployment-management-backend-live-dev.bitswan-devops-1.bswn.io/
+      BITSWAN_DEPLOYMENT_ID: backend-live-dev
+      BITSWAN_DEPLOY_CHECKSUM: live-dev
+      BITSWAN_DEPLOY_TIME: '2026-03-19T17:59:16.005133Z'
+      BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io/
+      BITSWAN_URL_PREFIX: https://deployment-management-
+      BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io/
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-live-dev.bitswan-devops-1.bswn.io/
+      BITSWAN_WORKSPACE_NAME: deployment-management
+      KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
+      KEYCLOAK_REALM: master
+      KEYCLOAK_URL: https://keycloak.bitswan.ai
+      UPDATE_CA_CERTIFICATES: 'true'
+    image: internal/backend:sha183ea69727896fe7cb777dd76baf7b477d5aa8ac
+    labels:
+      gitops.certs.enabled: 'true'
+      gitops.deployment_id: backend-live-dev
+      gitops.intended_exposed: 'true'
+      gitops.workspace: deployment-management
+    networks:
+      bitswan_network:
+        aliases:
+        - deployment-management-backend-live-dev.bitswan-devops-1.bswn.io/
+    restart: always
+    volumes:
+    - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
+    - /root/.config/bitswan/workspaces/deployment-management/workspace/deployment-management/backend:/app/
   internal-frontend-dev:
     container_name: deployment-management__internal-frontend-dev
     environment:
@@ -9,7 +43,7 @@ services:
       BITSWAN_AUTOMATION_URL: https://deployment-management-internal-frontend-dev.bitswan-devops-1.bswn.io/
       BITSWAN_DEPLOYMENT_ID: internal-frontend-dev
       BITSWAN_DEPLOY_CHECKSUM: 5f3fed5bfb7efed0aa9d303303e214b6b0fdbd32
-      BITSWAN_DEPLOY_TIME: '2026-03-19T17:59:14.946464Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-19T17:59:16.017717Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io/
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io/
@@ -60,7 +94,7 @@ services:
       BITSWAN_AUTOMATION_URL: https://deployment-management-internal-frontend-live-dev.bitswan-devops-1.bswn.io/
       BITSWAN_DEPLOYMENT_ID: internal-frontend-live-dev
       BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-03-19T17:59:15.079431Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-19T17:59:16.137962Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io/
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io/
@@ -104,4 +138,82 @@ services:
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/workspace/deployment-management/internal-frontend:/app/
+  minio-dev:
+    command: server /data --console-address :9001
+    container_name: deployment-management__minio-dev
+    env_file:
+    - /gitops/secrets/minio-dev
+    environment:
+      BITSWAN_AUTOMATION_URL: https://deployment-management-minio-dev.bitswan-devops-1.bswn.io/
+      OAUTH2_PROXY_CLIENT_ID: workspace-626ae6bc-2874-46ae-9ba1-f86ac959decb-code-server-client
+      OAUTH2_PROXY_CLIENT_SECRET: U1S53lPsLGJIfaPvpwWWakg5Qd3dko10
+      OAUTH2_PROXY_CODE_CHALLENGE_METHOD: S256
+      OAUTH2_PROXY_COOKIE_SECRET: Tapk4dUWIXxhKkpDabnFrpUPbTP9yPUs
+      OAUTH2_PROXY_EMAIL_DOMAINS: '*'
+      OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:9999
+      OAUTH2_PROXY_MQTT_ALLOWED_GROUPS_TOPIC: /groups
+      OAUTH2_PROXY_OIDC_GROUPS_CLAIM: group_membership
+      OAUTH2_PROXY_OIDC_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
+      OAUTH2_PROXY_PATH: /root/.config/bitswan/oauth2-proxy
+      OAUTH2_PROXY_PROVIDER: keycloak-oidc
+      OAUTH2_PROXY_REDIRECT_URL: https://deployment-management-minio-dev.bitswan-devops-1.bswn.io//oauth2/callback
+      OAUTH2_PROXY_SCOPE: openid email profile
+      OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: 'true'
+      OAUTH2_PROXY_UPSTREAMS: http://127.0.0.1:9001
+      OAUTH_ENABLED: 'true'
+    image: minio/minio:latest
+    labels:
+      gitops.oauth2.enabled: 'true'
+      gitops.oauth2.upstream: http://127.0.0.1:9001
+    networks:
+    - bitswan_network
+    restart: unless-stopped
+    volumes:
+    - deployment-management-minio-dev-data-data:/data
+    - /root/.config/bitswan/oauth2-proxy:/usr/local/bin/oauth2-proxy:ro
+  postgres-dev:
+    container_name: deployment-management__postgres-dev
+    env_file:
+    - /gitops/secrets/postgres-dev
+    image: postgres:16
+    networks:
+    - bitswan_network
+    restart: unless-stopped
+    volumes:
+    - deployment-management-postgres-dev-data-data:/var/lib/postgresql/data
+  postgres-dev-pgadmin:
+    container_name: deployment-management__postgres-dev-pgadmin
+    env_file:
+    - /gitops/secrets/postgres-dev
+    environment:
+      BITSWAN_AUTOMATION_URL: https://deployment-management-postgres-dev.bitswan-devops-1.bswn.io/
+      OAUTH2_PROXY_CLIENT_ID: workspace-626ae6bc-2874-46ae-9ba1-f86ac959decb-code-server-client
+      OAUTH2_PROXY_CLIENT_SECRET: U1S53lPsLGJIfaPvpwWWakg5Qd3dko10
+      OAUTH2_PROXY_CODE_CHALLENGE_METHOD: S256
+      OAUTH2_PROXY_COOKIE_SECRET: Tapk4dUWIXxhKkpDabnFrpUPbTP9yPUs
+      OAUTH2_PROXY_EMAIL_DOMAINS: '*'
+      OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:9999
+      OAUTH2_PROXY_MQTT_ALLOWED_GROUPS_TOPIC: /groups
+      OAUTH2_PROXY_OIDC_GROUPS_CLAIM: group_membership
+      OAUTH2_PROXY_OIDC_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
+      OAUTH2_PROXY_PATH: /root/.config/bitswan/oauth2-proxy
+      OAUTH2_PROXY_PROVIDER: keycloak-oidc
+      OAUTH2_PROXY_REDIRECT_URL: https://deployment-management-postgres-dev.bitswan-devops-1.bswn.io//oauth2/callback
+      OAUTH2_PROXY_SCOPE: openid email profile
+      OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: 'true'
+      OAUTH2_PROXY_UPSTREAMS: http://127.0.0.1:80
+      OAUTH_ENABLED: 'true'
+    image: dpage/pgadmin4:latest
+    labels:
+      gitops.oauth2.enabled: 'true'
+      gitops.oauth2.upstream: http://127.0.0.1:80
+    networks:
+    - bitswan_network
+    restart: unless-stopped
+    volumes:
+    - /gitops/secrets/pgadmin-servers.json:/pgadmin4/servers.json:ro
+    - /root/.config/bitswan/oauth2-proxy:/usr/local/bin/oauth2-proxy:ro
 version: '3'
+volumes:
+  deployment-management-minio-dev-data-data: null
+  deployment-management-postgres-dev-data-data: null

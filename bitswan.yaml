@@ -14,6 +14,16 @@ deployments:
       postgres:
         enabled: true
     stage: live-dev
+  external-frontend-live-dev:
+    active: true
+    checksum: live-dev
+    expose: true
+    id: dd8d7632-ce94-4b69-95e6-fe17d190ac78
+    image: internal/external-frontend:sha85dcfbd49c923c4f2ca387d3041e22062dac4d5a
+    mount_path: /app/
+    port: 8080
+    relative_path: deployment-management/external-frontend
+    stage: live-dev
   internal-frontend-dev:
     active: true
     checksum: 5f3fed5bfb7efed0aa9d303303e214b6b0fdbd32
