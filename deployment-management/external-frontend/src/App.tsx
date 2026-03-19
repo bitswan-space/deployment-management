@@ -105,7 +105,7 @@ function App() {
   return (
     <div className="app">
       <nav className="navbar">
-        <img src="/bitswan-logo.svg" alt="BitSwan" className="nav-logo" />
+        <div className="nav-logo" aria-label="BitSwan" />
         <div className="nav-right">
           <select className="lang-select" value={i18n.language} onChange={changeLang}>
             <option value="en">{t('language.en')}</option>

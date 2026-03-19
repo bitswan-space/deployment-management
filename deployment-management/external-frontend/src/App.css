@@ -16,7 +16,10 @@
 
 .nav-logo {
   height: 28px;
-  color: var(--text);
+  width: 120px;
+  background-color: var(--text);
+  -webkit-mask: url('/bitswan-logo.svg') no-repeat center / contain;
+  mask: url('/bitswan-logo.svg') no-repeat center / contain;
 }
 
 .nav-right {
