@@ -1,6 +1,7 @@
 {
   "app.title": "BitSwan Automation Server",
   "app.description": "Download the latest BitSwan Automation Server releases and follow the installation guide to get started.",
+  "hero.badge": "Open Source",
   "common.loading": "Loading...",
   "error.prefix": "Error",
   "releases.title": "All Releases",
@@ -14,6 +15,8 @@
   "install.arch": "Architecture",
   "install.step2Title": "2. Initialize Workspace",
   "install.step2Desc": "Run the init command to set up your workspace. Choose the option that matches your deployment scenario.",
+  "install.step3Title": "3. Start the Server",
+  "install.step3Desc": "Initialize and start the automation server daemon:",
   "install.saas": "SaaS deployment:",
   "install.onPremPublic": "On-prem with public domain:",
   "install.onPremInternal": "On-prem with internal domain:",

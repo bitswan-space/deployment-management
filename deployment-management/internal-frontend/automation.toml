@@ -4,5 +4,5 @@ id = "6d205ba9-cf63-44ee-a1aa-d113ceb43fe4"
 
 [expose_to]
 dev = [ "/WingsData s.r.o." ]
-staging = [ "/Example Organization" ]
-production = [ "/Example Organization" ]
+staging = [ "/WingsData s.r.o." ]
+production = [ "/WingsData s.r.o." ]

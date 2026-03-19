@@ -80,7 +80,11 @@ function App() {
     if (ua.includes('win')) return 'windows'
     return 'linux'
   })
-  const [selectedArch, setSelectedArch] = useState<string>('amd64')
+  const [selectedArch, setSelectedArch] = useState<string>(() => {
+    const ua = navigator.userAgent.toLowerCase()
+    if (ua.includes('mac') || ua.includes('darwin')) return 'arm64'
+    return 'amd64'
+  })
 
   useEffect(() => {
     backend.get<ReleasesResponse>('/automation/releases')
@@ -103,90 +107,124 @@ function App() {
 
   return (
     <div className="app">
-      <div className="toolbar">
-        <select className="lang-select" value={i18n.language} onChange={changeLang}>
-          <option value="en">{t('language.en')}</option>
-          <option value="cs">{t('language.cs')}</option>
-        </select>
-        <button onClick={toggleTheme}>
-          {theme === 'dark' ? '\u2600\uFE0F' : '\uD83C\uDF19'}
-        </button>
-      </div>
+      <nav className="navbar">
+        <img src="/bitswan-logo.svg" alt="BitSwan" className="nav-logo" />
+        <div className="nav-right">
+          <select className="lang-select" value={i18n.language} onChange={changeLang}>
+            <option value="en">{t('language.en')}</option>
+            <option value="cs">{t('language.cs')}</option>
+          </select>
+          <button className="theme-toggle" onClick={toggleTheme}>
+            {theme === 'dark' ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+          </button>
+        </div>
+      </nav>
 
-      <h1>{t('app.title')}</h1>
-      <p className="description">{t('app.description')}</p>
+      <header className="hero">
+        <h1>{t('app.title')}</h1>
+        <p className="hero-subtitle">{t('app.description')}</p>
+      </header>
 
-      <div className="install-section">
-        <h2>{t('install.title')}</h2>
-        <p className="install-prereq">{t('install.prereq')}</p>
-        <div className="install-steps">
-          <div className="install-step">
+      <section className="install-section" id="install">
+        <div className="section-header">
+          <h2>{t('install.title')}</h2>
+          <p className="section-desc">{t('install.prereq')}</p>
+        </div>
+
+        <div className="install-card">
+          <div className="install-card-header">
             <h3>{t('install.step1Title')}</h3>
             <p>{t('install.step1Desc')}</p>
-            <div className="platform-picker">
-              <div className="picker-group">
-                <label>{t('install.os')}</label>
-                <div className="picker-options">
-                  {(['linux', 'darwin', 'windows'] as const).map(os => (
-                    <button
-                      key={os}
-                      className={`picker-btn ${selectedOS === os ? 'active' : ''}`}
-                      onClick={() => setSelectedOS(os)}
-                    >
-                      {os === 'darwin' ? 'macOS' : os === 'linux' ? 'Linux' : 'Windows'}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div className="picker-group">
-                <label>{t('install.arch')}</label>
-                <div className="picker-options">
-                  {(['amd64', 'arm64'] as const).map(arch => (
-                    <button
-                      key={arch}
-                      className={`picker-btn ${selectedArch === arch ? 'active' : ''}`}
-                      onClick={() => setSelectedArch(arch)}
-                    >
-                      {arch === 'amd64' ? 'x86_64' : 'ARM64'}
-                    </button>
-                  ))}
-                </div>
+          </div>
+          <div className="platform-picker">
+            <div className="picker-group">
+              <label>{t('install.os')}</label>
+              <div className="picker-options">
+                {(['linux', 'darwin', 'windows'] as const).map(os => (
+                  <button
+                    key={os}
+                    className={`picker-btn ${selectedOS === os ? 'active' : ''}`}
+                    onClick={() => { setSelectedOS(os); setSelectedArch(os === 'darwin' ? 'arm64' : 'amd64') }}
+                  >
+                    {os === 'darwin' ? 'macOS' : os === 'linux' ? 'Linux' : 'Windows'}
+                  </button>
+                ))}
               </div>
             </div>
-            <CopyBlock text={installCmd} />
-            {pathCmd && <CopyBlock text={pathCmd} />}
+            <div className="picker-group">
+              <label>{t('install.arch')}</label>
+              <div className="picker-options">
+                {(['amd64', 'arm64'] as const).map(arch => (
+                  <button
+                    key={arch}
+                    className={`picker-btn ${selectedArch === arch ? 'active' : ''}`}
+                    onClick={() => setSelectedArch(arch)}
+                  >
+                    {arch === 'amd64' ? 'x86_64' : 'ARM64'}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
+          <CopyBlock text={installCmd} />
+          {pathCmd && <CopyBlock text={pathCmd} />}
+        </div>
 
-          <div className="install-step">
+        <div className="install-card">
+          <div className="install-card-header">
             <h3>{t('install.step2Title')}</h3>
             <p>{t('install.step2Desc')}</p>
-            <strong>{t('install.saas')}</strong>
-            <CopyBlock text="bitswan workspace init my-workspace" />
-            <strong>{t('install.onPremPublic')}</strong>
-            <CopyBlock text="bitswan workspace init --domain=my-workspace.bitswan.io my-workspace" />
-            <strong>{t('install.onPremInternal')}</strong>
-            <CopyBlock text="bitswan workspace init --domain=my-workspace.my-domain.local --certs-dir=/etc/certs my-workspace" />
-            <strong>{t('install.local')}</strong>
-            <CopyBlock text="bitswan workspace init --local dev-workspace" />
-            <strong>{t('install.withGit')}</strong>
-            <CopyBlock text="bitswan workspace init --remote=git@github.com:<your-name>/<your-repo>.git my-workspace" />
+          </div>
+          <div className="init-options">
+            <div className="init-option">
+              <span className="init-label">{t('install.saas')}</span>
+              <CopyBlock text="bitswan workspace init my-workspace" />
+            </div>
+            <div className="init-option">
+              <span className="init-label">{t('install.onPremPublic')}</span>
+              <CopyBlock text="bitswan workspace init --domain=my-workspace.bitswan.io my-workspace" />
+            </div>
+            <div className="init-option">
+              <span className="init-label">{t('install.onPremInternal')}</span>
+              <CopyBlock text="bitswan workspace init --domain=my-workspace.my-domain.local --certs-dir=/etc/certs my-workspace" />
+            </div>
+            <div className="init-option">
+              <span className="init-label">{t('install.local')}</span>
+              <CopyBlock text="bitswan workspace init --local dev-workspace" />
+            </div>
+            <div className="init-option">
+              <span className="init-label">{t('install.withGit')}</span>
+              <CopyBlock text="bitswan workspace init --remote=git@github.com:<your-name>/<your-repo>.git my-workspace" />
+            </div>
           </div>
         </div>
-      </div>
+
+        <div className="install-card">
+          <div className="install-card-header">
+            <h3>{t('install.step3Title')}</h3>
+            <p>{t('install.step3Desc')}</p>
+          </div>
+          <CopyBlock text="bitswan automation-server-daemon init" />
+        </div>
+      </section>
 
       {error && <p className="error-text">{t('error.prefix')}: {error}</p>}
 
       {loading ? (
-        <p>{t('common.loading')}</p>
+        <p className="loading-text">{t('common.loading')}</p>
       ) : releases.length > 0 ? (
-        <div className="releases-section">
-          <h2>{t('releases.title')}</h2>
+        <section className="releases-section" id="releases">
+          <div className="section-header">
+            <h2>{t('releases.title')}</h2>
+          </div>
           <div className="releases">
             {releases.map(release => (
               <div key={release.tag_name} className="release-card">
                 <div className="release-header">
-                  <h3>{release.release_name || release.tag_name}</h3>
-                  <span className="release-version">{release.tag_name}</span>
+                  <div className="release-title-row">
+                    <h3>{release.release_name || release.tag_name}</h3>
+                    <span className="release-version">{release.tag_name}</span>
+                  </div>
                   <span className="release-date">{new Date(release.published_at).toLocaleDateString()}</span>
                 </div>
 
@@ -199,7 +237,7 @@ function App() {
                 {release.assets && release.assets.length > 0 && (
                   <div className="download-section">
                     <h4>{t('downloads.title')}</h4>
-                    <div className="download-list">
+                    <div className="download-grid">
                       {release.assets.map(asset => (
                         <a
                           key={asset.name}
@@ -207,7 +245,9 @@ function App() {
                           className="download-item"
                           download
                         >
-                          <span className="download-icon">&#x2B07;</span>
+                          <svg className="download-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M9 2v10m0 0l-3.5-3.5M9 12l3.5-3.5M3 14h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
                           <span className="download-name">{asset.name}</span>
                           <span className="download-size">{formatSize(asset.size)}</span>
                         </a>
@@ -218,14 +258,14 @@ function App() {
               </div>
             ))}
           </div>
-        </div>
+        </section>
       ) : (
         <p className="no-releases">{t('releases.empty')}</p>
       )}
 
-      <footer className="powered-by">
+      <footer className="footer">
         <a href="https://bitswan.ai" target="_blank" rel="noopener noreferrer">
-          <img src="/bitswan.svg" alt="BitSwan" className="powered-by-logo" />
+          <img src="/bitswan.svg" alt="BitSwan" className="footer-logo" />
           Powered by BitSwan
         </a>
       </footer>

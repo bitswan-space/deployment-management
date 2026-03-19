@@ -1,6 +1,7 @@
 {
   "app.title": "BitSwan Automatizační Server",
   "app.description": "Stáhněte si nejnovější verze BitSwan Automatizačního Serveru a postupujte podle instalační příručky.",
+  "hero.badge": "Open Source",
   "common.loading": "Načítání...",
   "error.prefix": "Chyba",
   "releases.title": "Všechna vydání",
@@ -14,6 +15,8 @@
   "install.arch": "Architektura",
   "install.step2Title": "2. Inicializace pracovního prostoru",
   "install.step2Desc": "Spusťte příkaz init pro nastavení pracovního prostoru. Vyberte variantu odpovídající vašemu scénáři nasazení.",
+  "install.step3Title": "3. Spuštění serveru",
+  "install.step3Desc": "Inicializujte a spusťte démona automatizačního serveru:",
   "install.saas": "SaaS nasazení:",
   "install.onPremPublic": "On-prem s veřejnou doménou:",
   "install.onPremInternal": "On-prem s interní doménou:",
