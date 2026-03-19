@@ -34,7 +34,7 @@ deployments:
     checksum: live-dev
     expose: false
     expose_to:
-    - /Example Organization
+    - /WingsData s.r.o.
     id: 6d205ba9-cf63-44ee-a1aa-d113ceb43fe4
     image: internal/internal-frontend:sha85dcfbd49c923c4f2ca387d3041e22062dac4d5a
     mount_path: /app/
