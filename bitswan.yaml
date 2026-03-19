@@ -1,1 +1,6 @@
-deployments: {}
+deployments:
+  internal-frontend-dev:
+    active: true
+    checksum: 5f3fed5bfb7efed0aa9d303303e214b6b0fdbd32
+    relative_path: deployment-management/internal-frontend
+    stage: dev
