@@ -17,7 +17,7 @@
   "install.step2Desc": "Initialize and start the automation server daemon:",
   "install.step3Title": "3. Initialize Workspace",
   "install.step3Desc": "Set up your workspace. Choose the option that matches your deployment scenario.",
-  "install.saas": "SaaS: Connect to aoc.bitswan.ai and create the workspace in the UI.",
+  "install.saasDesc": "Connect your automation server and create the workspace at",
   "install.onPremPublic": "On-prem with public domain:",
   "install.onPremInternal": "On-prem with internal domain:",
   "install.local": "Local development:",

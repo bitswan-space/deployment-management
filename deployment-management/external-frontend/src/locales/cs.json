@@ -17,7 +17,7 @@
   "install.step2Desc": "Inicializujte a spusťte démona automatizačního serveru:",
   "install.step3Title": "3. Inicializace pracovního prostoru",
   "install.step3Desc": "Nastavte si pracovní prostor. Vyberte variantu odpovídající vašemu scénáři nasazení.",
-  "install.saas": "SaaS: Připojte se k aoc.bitswan.ai a vytvořte pracovní prostor v UI.",
+  "install.saasDesc": "Připojte automatizační server a vytvořte pracovní prostor na",
   "install.onPremPublic": "On-prem s veřejnou doménou:",
   "install.onPremInternal": "On-prem s interní doménou:",
   "install.local": "Lokální vývoj:",

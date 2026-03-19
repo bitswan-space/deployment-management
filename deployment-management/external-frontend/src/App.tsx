@@ -182,7 +182,9 @@ function App() {
           </div>
           <div className="init-options">
             <div className="init-option">
-              <span className="init-label">{t('install.saas')}</span>
+              <span className="init-label">
+                SaaS: {t('install.saasDesc')} <a href="https://aoc.bitswan.ai" target="_blank" rel="noopener noreferrer">aoc.bitswan.ai</a>
+              </span>
             </div>
             <div className="init-option">
               <span className="init-label">{t('install.onPremPublic')}</span>

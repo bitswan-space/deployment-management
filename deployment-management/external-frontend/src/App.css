@@ -211,6 +211,16 @@
   margin-bottom: 0.25rem;
 }
 
+.init-label a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.init-label a:hover {
+  text-decoration: underline;
+}
+
 /* ── Code blocks & copy ── */
 .code-block-wrapper {
   position: relative;
