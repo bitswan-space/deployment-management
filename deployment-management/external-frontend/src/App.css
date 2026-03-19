@@ -211,13 +211,20 @@
   margin-bottom: 0.25rem;
 }
 
-.init-label a {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 600;
+.init-desc {
+  font-size: 0.85em;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
 }
 
-.init-label a:hover {
+.init-desc a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.init-desc a:hover {
   text-decoration: underline;
 }
 
