@@ -19,6 +19,10 @@ deployments:
       postgres:
         enabled: true
     stage: live-dev
+  backend-staging:
+    active: true
+    checksum: c51f60505bbd1bbadb702f432a35d80ab651e2fc
+    stage: staging
   external-frontend-live-dev:
     active: true
     checksum: live-dev
