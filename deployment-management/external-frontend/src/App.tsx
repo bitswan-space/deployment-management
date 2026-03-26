@@ -99,7 +99,7 @@ function App() {
 
   const os = selectedOS === 'windows' ? 'linux' : selectedOS
   const latestUrl = `${(backend.baseUrl || '')}/automation/latest?os=${os}&arch=${selectedArch}`
-  const installCmd = `curl -Lo bitswan ${latestUrl} && chmod +x bitswan`
+  const installCmd = `curl -Lo bitswan "${latestUrl}" && chmod +x bitswan`
   const pathCmd = `sudo mv bitswan /usr/local/bin/`
 
   return (
