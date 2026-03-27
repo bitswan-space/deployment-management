@@ -74,11 +74,6 @@ deployments:
     active: true
     checksum: b79a86623d2cb8120f15d30c2f302db2b3c76521
     stage: ''
-  internal-frontend-deployment-management-live-dev:
-    active: true
-    checksum: live-dev
-    relative_path: deployment-management/internal-frontend
-    stage: live-dev
   internal-frontend-dev:
     active: true
     checksum: b79a86623d2cb8120f15d30c2f302db2b3c76521
