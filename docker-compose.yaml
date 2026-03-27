@@ -9,11 +9,12 @@ services:
     - /gitops/secrets/postgres
     - /gitops/secrets/minio
     environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: production
       BITSWAN_AUTOMATION_URL: https://deployment-management-backend.bitswan-devops-1.bswn.io
       BITSWAN_DEPLOYMENT_ID: backend
       BITSWAN_DEPLOY_CHECKSUM: c51f60505bbd1bbadb702f432a35d80ab651e2fc
-      BITSWAN_DEPLOY_TIME: '2026-03-19T21:20:01.563116Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:30.208192Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -34,9 +35,96 @@ services:
         aliases:
         - deployment-management-backend.bitswan-devops-1.bswn.io
     restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/c51f60505bbd1bbadb702f432a35d80ab651e2fc:/app/
+  backend-deployment-management-live-dev:
+    container_name: deployment-management__backend-deployment-management-live-dev
+    env_file:
+    - /gitops/secrets/dockerhub
+    - /gitops/secrets/postgres-dev
+    - /gitops/secrets/minio-dev
+    environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
+      BITSWAN_AUTOMATION_STAGE: live-dev
+      BITSWAN_AUTOMATION_URL: https://deployment-management-backend-deployment-management-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-live-dev
+      BITSWAN_DEPLOYMENT_ID: backend-deployment-management-live-dev
+      BITSWAN_DEPLOY_CHECKSUM: live-dev
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:30.414298Z'
+      BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
+      BITSWAN_URL_PREFIX: https://deployment-management-
+      BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_WORKSPACE_NAME: deployment-management
+      KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
+      KEYCLOAK_REALM: master
+      KEYCLOAK_URL: https://keycloak.bitswan.ai
+      UPDATE_CA_CERTIFICATES: 'true'
+    image: internal/backend:sha183ea69727896fe7cb777dd76baf7b477d5aa8ac
+    labels:
+      gitops.certs.enabled: 'true'
+      gitops.deployment_id: backend-deployment-management-live-dev
+      gitops.intended_exposed: 'true'
+      gitops.workspace: deployment-management
+    networks:
+      bitswan_network:
+        aliases:
+        - deployment-management-backend-deployment-management-live-dev.bitswan-devops-1.bswn.io
+    restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
+    volumes:
+    - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
+    - /root/.config/bitswan/workspaces/deployment-management/workspace/deployment-management/backend:/app/
+  backend-deployment-management-wt-coding-agent-staging-live-dev:
+    container_name: deployment-management__backend-deployment-management-wt-coding-agent-staging-live-dev
+    env_file:
+    - /gitops/secrets/dockerhub
+    - /gitops/secrets/postgres-dev
+    - /gitops/secrets/minio-dev
+    environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
+      BITSWAN_AUTOMATION_STAGE: live-dev
+      BITSWAN_AUTOMATION_URL: https://deployment-management-backend-deployment-management-wt-coding-agent-staging-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-wt-coding-agent-staging-live-dev
+      BITSWAN_DEPLOYMENT_ID: backend-deployment-management-wt-coding-agent-staging-live-dev
+      BITSWAN_DEPLOY_CHECKSUM: live-dev
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:30.573224Z'
+      BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
+      BITSWAN_URL_PREFIX: https://deployment-management-
+      BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-wt-coding-agent-staging-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_WORKSPACE_NAME: deployment-management
+      KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
+      KEYCLOAK_REALM: master
+      KEYCLOAK_URL: https://keycloak.bitswan.ai
+      POSTGRES_DB: postgres_wt_coding_agent_staging
+      UPDATE_CA_CERTIFICATES: 'true'
+    image: internal/backend:sha183ea69727896fe7cb777dd76baf7b477d5aa8ac
+    labels:
+      gitops.certs.enabled: 'true'
+      gitops.deployment_id: backend-deployment-management-wt-coding-agent-staging-live-dev
+      gitops.intended_exposed: 'true'
+      gitops.workspace: deployment-management
+    networks:
+      bitswan_network:
+        aliases:
+        - deployment-management-backend-deployment-management-wt-coding-agent-staging-live-dev.bitswan-devops-1.bswn.io
+    restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
+    volumes:
+    - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
+    - /root/.config/bitswan/workspaces/deployment-management/workspace/worktrees/coding-agent-staging/deployment-management/backend:/app/
   backend-dev:
     container_name: deployment-management__backend-dev
     env_file:
@@ -44,15 +132,17 @@ services:
     - /gitops/secrets/postgres-dev
     - /gitops/secrets/minio-dev
     environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: dev
       BITSWAN_AUTOMATION_URL: https://deployment-management-backend-dev.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-dev
       BITSWAN_DEPLOYMENT_ID: backend-dev
       BITSWAN_DEPLOY_CHECKSUM: c51f60505bbd1bbadb702f432a35d80ab651e2fc
-      BITSWAN_DEPLOY_TIME: '2026-03-19T21:20:01.567078Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:30.715559Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
-      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-dev.bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-dev.bitswan-devops-1.bswn.io
       BITSWAN_WORKSPACE_NAME: deployment-management
       KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
       KEYCLOAK_REALM: master
@@ -69,24 +159,31 @@ services:
         aliases:
         - deployment-management-backend-dev.bitswan-devops-1.bswn.io
     restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/c51f60505bbd1bbadb702f432a35d80ab651e2fc:/app/
   backend-live-dev:
     container_name: deployment-management__backend-live-dev
     env_file:
-    - /gitops/secrets/minio-dev
+    - /gitops/secrets/dockerhub
     - /gitops/secrets/postgres-dev
+    - /gitops/secrets/minio-dev
     environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: live-dev
       BITSWAN_AUTOMATION_URL: https://deployment-management-backend-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-live-dev
       BITSWAN_DEPLOYMENT_ID: backend-live-dev
       BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-03-19T21:20:01.570337Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:30.855726Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
-      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-live-dev.bitswan-devops-1.bswn.io
       BITSWAN_WORKSPACE_NAME: deployment-management
       KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
       KEYCLOAK_REALM: master
@@ -103,6 +200,10 @@ services:
         aliases:
         - deployment-management-backend-live-dev.bitswan-devops-1.bswn.io
     restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/workspace/deployment-management/backend:/app/
@@ -113,11 +214,13 @@ services:
     - /gitops/secrets/postgres-staging
     - /gitops/secrets/minio-staging
     environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: staging
       BITSWAN_AUTOMATION_URL: https://deployment-management-backend-staging.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: staging
       BITSWAN_DEPLOYMENT_ID: backend-staging
       BITSWAN_DEPLOY_CHECKSUM: c51f60505bbd1bbadb702f432a35d80ab651e2fc
-      BITSWAN_DEPLOY_TIME: '2026-03-19T21:20:01.573789Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:30.997237Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -138,17 +241,22 @@ services:
         aliases:
         - deployment-management-backend-staging.bitswan-devops-1.bswn.io
     restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/c51f60505bbd1bbadb702f432a35d80ab651e2fc:/app/
   external-frontend:
     container_name: deployment-management__external-frontend
     environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: production
       BITSWAN_AUTOMATION_URL: https://deployment-management-external-frontend.bitswan-devops-1.bswn.io
       BITSWAN_DEPLOYMENT_ID: external-frontend
       BITSWAN_DEPLOY_CHECKSUM: 0d00970e7026580366954fd12c2ea25d03992e36
-      BITSWAN_DEPLOY_TIME: '2026-03-19T21:20:01.577419Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:31.137873Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -169,21 +277,65 @@ services:
         aliases:
         - deployment-management-external-frontend.bitswan-devops-1.bswn.io
     restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/0d00970e7026580366954fd12c2ea25d03992e36:/app/
-  external-frontend-dev:
-    container_name: deployment-management__external-frontend-dev
+  external-frontend-deployment-management-wt-coding-agent-staging-live-dev:
+    container_name: deployment-management__external-frontend-deployment-management-wt-coding-agent-staging-live-dev
     environment:
-      BITSWAN_AUTOMATION_STAGE: dev
-      BITSWAN_AUTOMATION_URL: https://deployment-management-external-frontend-dev.bitswan-devops-1.bswn.io
-      BITSWAN_DEPLOYMENT_ID: external-frontend-dev
-      BITSWAN_DEPLOY_CHECKSUM: 0d00970e7026580366954fd12c2ea25d03992e36
-      BITSWAN_DEPLOY_TIME: '2026-03-19T21:20:01.580334Z'
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
+      BITSWAN_AUTOMATION_STAGE: live-dev
+      BITSWAN_AUTOMATION_URL: https://deployment-management-external-frontend-deployment-management-wt-coding-agent-staging-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-wt-coding-agent-staging-live-dev
+      BITSWAN_DEPLOYMENT_ID: external-frontend-deployment-management-wt-coding-agent-staging-live-dev
+      BITSWAN_DEPLOY_CHECKSUM: live-dev
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:31.274999Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
-      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-dev.bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-wt-coding-agent-staging-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_WORKSPACE_NAME: deployment-management
+      KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
+      KEYCLOAK_REALM: master
+      KEYCLOAK_URL: https://keycloak.bitswan.ai
+      POSTGRES_DB: postgres_wt_coding_agent_staging
+      UPDATE_CA_CERTIFICATES: 'true'
+    image: internal/external-frontend:sha85dcfbd49c923c4f2ca387d3041e22062dac4d5a
+    labels:
+      gitops.certs.enabled: 'true'
+      gitops.deployment_id: external-frontend-deployment-management-wt-coding-agent-staging-live-dev
+      gitops.intended_exposed: 'true'
+      gitops.workspace: deployment-management
+    networks:
+      bitswan_network:
+        aliases:
+        - deployment-management-external-frontend-deployment-management-wt-coding-agent-staging-live-dev.bitswan-devops-1.bswn.io
+    restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
+    volumes:
+    - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
+    - /root/.config/bitswan/workspaces/deployment-management/workspace/worktrees/coding-agent-staging/deployment-management/external-frontend:/app/
+  external-frontend-dev:
+    container_name: deployment-management__external-frontend-dev
+    environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
+      BITSWAN_AUTOMATION_STAGE: dev
+      BITSWAN_AUTOMATION_URL: https://deployment-management-external-frontend-dev.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-dev
+      BITSWAN_DEPLOYMENT_ID: external-frontend-dev
+      BITSWAN_DEPLOY_CHECKSUM: 0d00970e7026580366954fd12c2ea25d03992e36
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:31.431775Z'
+      BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
+      BITSWAN_URL_PREFIX: https://deployment-management-
+      BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-dev.bitswan-devops-1.bswn.io
       BITSWAN_WORKSPACE_NAME: deployment-management
       KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
       KEYCLOAK_REALM: master
@@ -200,21 +352,27 @@ services:
         aliases:
         - deployment-management-external-frontend-dev.bitswan-devops-1.bswn.io
     restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/0d00970e7026580366954fd12c2ea25d03992e36:/app/
   external-frontend-live-dev:
     container_name: deployment-management__external-frontend-live-dev
     environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: live-dev
       BITSWAN_AUTOMATION_URL: https://deployment-management-external-frontend-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-live-dev
       BITSWAN_DEPLOYMENT_ID: external-frontend-live-dev
       BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-03-19T21:20:01.583372Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:31.570501Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
-      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-live-dev.bitswan-devops-1.bswn.io
       BITSWAN_WORKSPACE_NAME: deployment-management
       KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
       KEYCLOAK_REALM: master
@@ -231,17 +389,23 @@ services:
         aliases:
         - deployment-management-external-frontend-live-dev.bitswan-devops-1.bswn.io
     restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/workspace/deployment-management/external-frontend:/app/
   external-frontend-staging:
     container_name: deployment-management__external-frontend-staging
     environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: staging
       BITSWAN_AUTOMATION_URL: https://deployment-management-external-frontend-staging.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: staging
       BITSWAN_DEPLOYMENT_ID: external-frontend-staging
       BITSWAN_DEPLOY_CHECKSUM: 0d00970e7026580366954fd12c2ea25d03992e36
-      BITSWAN_DEPLOY_TIME: '2026-03-19T21:20:01.587048Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:31.711304Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -262,17 +426,22 @@ services:
         aliases:
         - deployment-management-external-frontend-staging.bitswan-devops-1.bswn.io
     restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/0d00970e7026580366954fd12c2ea25d03992e36:/app/
   internal-frontend:
     container_name: deployment-management__internal-frontend
     environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: production
       BITSWAN_AUTOMATION_URL: https://deployment-management-internal-frontend.bitswan-devops-1.bswn.io
       BITSWAN_DEPLOYMENT_ID: internal-frontend
       BITSWAN_DEPLOY_CHECKSUM: b79a86623d2cb8120f15d30c2f302db2b3c76521
-      BITSWAN_DEPLOY_TIME: '2026-03-19T21:20:01.590273Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:31.849063Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -281,7 +450,7 @@ services:
       KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
       KEYCLOAK_REALM: master
       KEYCLOAK_URL: https://keycloak.bitswan.ai
-      OAUTH2_PROXY_ALLOWED_GROUPS: /WingsData s.r.o.
+      OAUTH2_PROXY_ALLOWED_GROUPS: /WingsData s.r.o./WingsData s.r.o.
       OAUTH2_PROXY_CLIENT_ID: workspace-626ae6bc-2874-46ae-9ba1-f86ac959decb-internal-frontend-client
       OAUTH2_PROXY_CLIENT_SECRET: eM7nYE5LIrVcY1V8tGEm4hecqYtrYavk
       OAUTH2_PROXY_CODE_CHALLENGE_METHOD: S256
@@ -313,26 +482,32 @@ services:
         aliases:
         - deployment-management-internal-frontend.bitswan-devops-1.bswn.io
     restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/b79a86623d2cb8120f15d30c2f302db2b3c76521:/app/
   internal-frontend-dev:
     container_name: deployment-management__internal-frontend-dev
     environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: dev
       BITSWAN_AUTOMATION_URL: https://deployment-management-internal-frontend-dev.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-dev
       BITSWAN_DEPLOYMENT_ID: internal-frontend-dev
       BITSWAN_DEPLOY_CHECKSUM: b79a86623d2cb8120f15d30c2f302db2b3c76521
-      BITSWAN_DEPLOY_TIME: '2026-03-19T21:20:01.724767Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:32.112791Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
-      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-dev.bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-dev.bitswan-devops-1.bswn.io
       BITSWAN_WORKSPACE_NAME: deployment-management
       KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
       KEYCLOAK_REALM: master
       KEYCLOAK_URL: https://keycloak.bitswan.ai
-      OAUTH2_PROXY_ALLOWED_GROUPS: /WingsData s.r.o.
+      OAUTH2_PROXY_ALLOWED_GROUPS: /WingsData s.r.o./WingsData s.r.o.
       OAUTH2_PROXY_CLIENT_ID: workspace-626ae6bc-2874-46ae-9ba1-f86ac959decb-internal-frontend-dev-client
       OAUTH2_PROXY_CLIENT_SECRET: ofofPqh1m7NZMSWMVdV9xJGuhKPBF2nw
       OAUTH2_PROXY_CODE_CHALLENGE_METHOD: S256
@@ -364,26 +539,32 @@ services:
         aliases:
         - deployment-management-internal-frontend-dev.bitswan-devops-1.bswn.io
     restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/b79a86623d2cb8120f15d30c2f302db2b3c76521:/app/
   internal-frontend-live-dev:
     container_name: deployment-management__internal-frontend-live-dev
     environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: live-dev
       BITSWAN_AUTOMATION_URL: https://deployment-management-internal-frontend-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-live-dev
       BITSWAN_DEPLOYMENT_ID: internal-frontend-live-dev
       BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-03-19T21:20:01.856055Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:32.382043Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
-      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-live-dev.bitswan-devops-1.bswn.io
       BITSWAN_WORKSPACE_NAME: deployment-management
       KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
       KEYCLOAK_REALM: master
       KEYCLOAK_URL: https://keycloak.bitswan.ai
-      OAUTH2_PROXY_ALLOWED_GROUPS: /WingsData s.r.o.
+      OAUTH2_PROXY_ALLOWED_GROUPS: /WingsData s.r.o./WingsData s.r.o.
       OAUTH2_PROXY_CLIENT_ID: workspace-626ae6bc-2874-46ae-9ba1-f86ac959decb-internal-frontend-live-dev-client
       OAUTH2_PROXY_CLIENT_SECRET: 4ryGgRFd2nrBFKPda3hWVriZWNFVCKot
       OAUTH2_PROXY_CODE_CHALLENGE_METHOD: S256
@@ -415,17 +596,23 @@ services:
         aliases:
         - deployment-management-internal-frontend-live-dev.bitswan-devops-1.bswn.io
     restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/workspace/deployment-management/internal-frontend:/app/
   internal-frontend-staging:
     container_name: deployment-management__internal-frontend-staging
     environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: staging
       BITSWAN_AUTOMATION_URL: https://deployment-management-internal-frontend-staging.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: staging
       BITSWAN_DEPLOYMENT_ID: internal-frontend-staging
       BITSWAN_DEPLOY_CHECKSUM: b79a86623d2cb8120f15d30c2f302db2b3c76521
-      BITSWAN_DEPLOY_TIME: '2026-03-19T21:20:01.996251Z'
+      BITSWAN_DEPLOY_TIME: '2026-03-27T21:57:32.659291Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -434,7 +621,7 @@ services:
       KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
       KEYCLOAK_REALM: master
       KEYCLOAK_URL: https://keycloak.bitswan.ai
-      OAUTH2_PROXY_ALLOWED_GROUPS: /WingsData s.r.o.
+      OAUTH2_PROXY_ALLOWED_GROUPS: /WingsData s.r.o./WingsData s.r.o.
       OAUTH2_PROXY_CLIENT_ID: workspace-626ae6bc-2874-46ae-9ba1-f86ac959decb-internal-frontend-staging-client
       OAUTH2_PROXY_CLIENT_SECRET: fJHIpbpPTSLoD5kxZFLDJBiflgmqkNrK
       OAUTH2_PROXY_CODE_CHALLENGE_METHOD: S256
@@ -466,6 +653,10 @@ services:
         aliases:
         - deployment-management-internal-frontend-staging.bitswan-devops-1.bswn.io
     restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/b79a86623d2cb8120f15d30c2f302db2b3c76521:/app/
@@ -501,7 +692,6 @@ services:
     restart: unless-stopped
     volumes:
     - deployment-management-minio-data-data:/data
-    - /root/.config/bitswan/oauth2-proxy:/usr/local/bin/oauth2-proxy:ro
   minio-dev:
     command: server /data --console-address :9001
     container_name: deployment-management__minio-dev
@@ -534,7 +724,6 @@ services:
     restart: unless-stopped
     volumes:
     - deployment-management-minio-dev-data-data:/data
-    - /root/.config/bitswan/oauth2-proxy:/usr/local/bin/oauth2-proxy:ro
   minio-staging:
     command: server /data --console-address :9001
     container_name: deployment-management__minio-staging
@@ -567,7 +756,6 @@ services:
     restart: unless-stopped
     volumes:
     - deployment-management-minio-staging-data-data:/data
-    - /root/.config/bitswan/oauth2-proxy:/usr/local/bin/oauth2-proxy:ro
   postgres:
     container_name: deployment-management__postgres
     env_file:
@@ -619,7 +807,6 @@ services:
     restart: unless-stopped
     volumes:
     - /gitops/secrets/pgadmin-servers.json:/pgadmin4/servers.json:ro
-    - /root/.config/bitswan/oauth2-proxy:/usr/local/bin/oauth2-proxy:ro
   postgres-pgadmin:
     container_name: deployment-management__postgres-pgadmin
     env_file:
@@ -651,7 +838,6 @@ services:
     restart: unless-stopped
     volumes:
     - /gitops/secrets/pgadmin-servers.json:/pgadmin4/servers.json:ro
-    - /root/.config/bitswan/oauth2-proxy:/usr/local/bin/oauth2-proxy:ro
   postgres-staging:
     container_name: deployment-management__postgres-staging
     env_file:
@@ -693,7 +879,6 @@ services:
     restart: unless-stopped
     volumes:
     - /gitops/secrets/pgadmin-servers.json:/pgadmin4/servers.json:ro
-    - /root/.config/bitswan/oauth2-proxy:/usr/local/bin/oauth2-proxy:ro
 version: '3'
 volumes:
   deployment-management-minio-data-data: null
