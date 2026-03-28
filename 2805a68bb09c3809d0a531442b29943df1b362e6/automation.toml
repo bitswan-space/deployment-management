@@ -1,0 +1,8 @@
+[deployment]
+image = "internal/internal-frontend:sha85dcfbd49c923c4f2ca387d3041e22062dac4d5a"
+id = "6d205ba9-cf63-44ee-a1aa-d113ceb43fe4"
+
+[expose_to]
+dev = [ "/WingsData s.r.o." ]
+staging = [ "/WingsData s.r.o." ]
+production = [ "/WingsData s.r.o." ]
