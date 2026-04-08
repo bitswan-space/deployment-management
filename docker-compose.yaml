@@ -14,7 +14,7 @@ services:
       BITSWAN_AUTOMATION_URL: https://deployment-management-backend.bitswan-devops-1.bswn.io
       BITSWAN_DEPLOYMENT_ID: backend
       BITSWAN_DEPLOY_CHECKSUM: c51f60505bbd1bbadb702f432a35d80ab651e2fc
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:48.289999Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:30.723188Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -54,7 +54,7 @@ services:
       BITSWAN_AUTOMATION_URL: https://deployment-management-backend-deployment-management.bitswan-devops-1.bswn.io
       BITSWAN_DEPLOYMENT_ID: backend-deployment-management
       BITSWAN_DEPLOY_CHECKSUM: ea6fea19c4b4d14e63dc994d2301023f7830b463
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:48.609379Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:31.043268Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -82,6 +82,48 @@ services:
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/ea6fea19c4b4d14e63dc994d2301023f7830b463:/app/
+  backend-deployment-management-4e2d-live-dev:
+    container_name: backend-deployment-management-4e2d-live-dev
+    env_file:
+    - /gitops/secrets/dockerhub
+    - /gitops/secrets/postgres-dev
+    - /gitops/secrets/minio-dev
+    environment:
+      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
+      BITSWAN_AUTOMATION_STAGE: live-dev
+      BITSWAN_AUTOMATION_URL: https://deployment-manageme-backend-deployment-management-4e2d-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-wt-coding-agent-staging-live-dev
+      BITSWAN_DEPLOYMENT_ID: backend-deployment-management-wt-coding-agent-staging-live-dev
+      BITSWAN_DEPLOY_CHECKSUM: live-dev
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:32.020111Z'
+      BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
+      BITSWAN_URL_PREFIX: https://deployment-management-
+      BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-4e2d-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_WORKSPACE_NAME: deployment-management
+      KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
+      KEYCLOAK_REALM: master
+      KEYCLOAK_URL: https://keycloak.bitswan.ai
+      POSTGRES_DB: postgres_wt_coding_agent_staging
+      UPDATE_CA_CERTIFICATES: 'true'
+    image: internal/backend:sha183ea69727896fe7cb777dd76baf7b477d5aa8ac
+    labels:
+      gitops.certs.enabled: 'true'
+      gitops.deployment_id: backend-deployment-management-wt-coding-agent-staging-live-dev
+      gitops.intended_exposed: 'true'
+      gitops.workspace: deployment-management
+    networks:
+      bitswan_network:
+        aliases:
+        - deployment-manageme-backend-deployment-management-4e2d-live-dev.bitswan-devops-1.bswn.io
+    restart: always
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
+    volumes:
+    - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
+    - /root/.config/bitswan/workspaces/deployment-management/workspace/worktrees/coding-agent-staging/deployment-management/backend:/app/
   backend-deployment-management-dev:
     container_name: deployment-management__backend-deployment-management-dev
     env_file:
@@ -95,7 +137,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-dev
       BITSWAN_DEPLOYMENT_ID: backend-deployment-management-dev
       BITSWAN_DEPLOY_CHECKSUM: ea6fea19c4b4d14e63dc994d2301023f7830b463
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:48.840555Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:31.303139Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -136,7 +178,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-live-dev
       BITSWAN_DEPLOYMENT_ID: backend-deployment-management-live-dev
       BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:49.103793Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:31.552322Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -177,7 +219,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: staging
       BITSWAN_DEPLOYMENT_ID: backend-deployment-management-staging
       BITSWAN_DEPLOY_CHECKSUM: ea6fea19c4b4d14e63dc994d2301023f7830b463
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:49.371573Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:31.790082Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -205,48 +247,6 @@ services:
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/ea6fea19c4b4d14e63dc994d2301023f7830b463:/app/
-  backend-deployment-management-wt-coding-agent-staging-live-dev:
-    container_name: backend-deployment-management-wt-coding-agent-staging-live-dev
-    env_file:
-    - /gitops/secrets/dockerhub
-    - /gitops/secrets/postgres-dev
-    - /gitops/secrets/minio-dev
-    environment:
-      BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
-      BITSWAN_AUTOMATION_STAGE: live-dev
-      BITSWAN_AUTOMATION_URL: https://deployment-management-backend-fde7-live-dev.bitswan-devops-1.bswn.io
-      BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-wt-coding-agent-staging-live-dev
-      BITSWAN_DEPLOYMENT_ID: backend-deployment-management-wt-coding-agent-staging-live-dev
-      BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:49.639743Z'
-      BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
-      BITSWAN_URL_PREFIX: https://deployment-management-
-      BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
-      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-wt-coding-agent-staging-live-dev.bitswan-devops-1.bswn.io
-      BITSWAN_WORKSPACE_NAME: deployment-management
-      KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
-      KEYCLOAK_REALM: master
-      KEYCLOAK_URL: https://keycloak.bitswan.ai
-      POSTGRES_DB: postgres_wt_coding_agent_staging
-      UPDATE_CA_CERTIFICATES: 'true'
-    image: internal/backend:sha183ea69727896fe7cb777dd76baf7b477d5aa8ac
-    labels:
-      gitops.certs.enabled: 'true'
-      gitops.deployment_id: backend-deployment-management-wt-coding-agent-staging-live-dev
-      gitops.intended_exposed: 'true'
-      gitops.workspace: deployment-management
-    networks:
-      bitswan_network:
-        aliases:
-        - deployment-management-backend-fde7-live-dev.bitswan-devops-1.bswn.io
-    restart: always
-    ulimits:
-      nofile:
-        hard: 65536
-        soft: 65536
-    volumes:
-    - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
-    - /root/.config/bitswan/workspaces/deployment-management/workspace/worktrees/coding-agent-staging/deployment-management/backend:/app/
   backend-dev:
     container_name: deployment-management__backend-dev
     env_file:
@@ -260,7 +260,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-dev
       BITSWAN_DEPLOYMENT_ID: backend-dev
       BITSWAN_DEPLOY_CHECKSUM: c51f60505bbd1bbadb702f432a35d80ab651e2fc
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:49.862507Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:32.271425Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -301,7 +301,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-live-dev
       BITSWAN_DEPLOYMENT_ID: backend-live-dev
       BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:50.093146Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:32.540438Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -342,7 +342,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: staging
       BITSWAN_DEPLOYMENT_ID: backend-staging
       BITSWAN_DEPLOY_CHECKSUM: c51f60505bbd1bbadb702f432a35d80ab651e2fc
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:50.301867Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:32.772189Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -383,11 +383,11 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-wt-coding-agent-staging-dev
       BITSWAN_DEPLOYMENT_ID: backend-worktrees-dev
       BITSWAN_DEPLOY_CHECKSUM: c51f60505bbd1bbadb702f432a35d80ab651e2fc
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:50.520147Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:33.039764Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
-      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-wt-coding-agent-staging-dev.bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-431b-dev.bitswan-devops-1.bswn.io
       BITSWAN_WORKSPACE_NAME: deployment-management
       KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
       KEYCLOAK_REALM: master
@@ -419,7 +419,7 @@ services:
       BITSWAN_AUTOMATION_URL: https://deployment-management-external-frontend.bitswan-devops-1.bswn.io
       BITSWAN_DEPLOYMENT_ID: external-frontend
       BITSWAN_DEPLOY_CHECKSUM: 0d00970e7026580366954fd12c2ea25d03992e36
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:50.725888Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:33.245321Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -455,7 +455,7 @@ services:
       BITSWAN_AUTOMATION_URL: https://deployment-management-external-frontend-deployment-management.bitswan-devops-1.bswn.io
       BITSWAN_DEPLOYMENT_ID: external-frontend-deployment-management
       BITSWAN_DEPLOY_CHECKSUM: 5c18b6e4bc3272375e5a4c04243c95a85522cd77
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:50.987880Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:33.456385Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -483,20 +483,20 @@ services:
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/5c18b6e4bc3272375e5a4c04243c95a85522cd77:/app/
-  external-frontend-deployment-management-4e2d6bc7-live-dev:
-    container_name: external-frontend-deployment-management-4e2d6bc7-live-dev
+  external-frontend-deployment-management-4e2d-live-dev:
+    container_name: external-frontend-deployment-management-4e2d-live-dev
     environment:
       BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: live-dev
-      BITSWAN_AUTOMATION_URL: https://deployment-management-external-3806-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_AUTOMATION_URL: https://deploymen-external-frontend-deployment-management-4e2d-live-dev.bitswan-devops-1.bswn.io
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-wt-coding-agent-staging-live-dev
       BITSWAN_DEPLOYMENT_ID: external-frontend-deployment-management-wt-coding-agent-staging-live-dev
       BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:51.971266Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:34.419655Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
-      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-wt-coding-agent-staging-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-4e2d-live-dev.bitswan-devops-1.bswn.io
       BITSWAN_WORKSPACE_NAME: deployment-management
       KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
       KEYCLOAK_REALM: master
@@ -512,7 +512,7 @@ services:
     networks:
       bitswan_network:
         aliases:
-        - deployment-management-external-3806-live-dev.bitswan-devops-1.bswn.io
+        - deploymen-external-frontend-deployment-management-4e2d-live-dev.bitswan-devops-1.bswn.io
     restart: always
     ulimits:
       nofile:
@@ -530,7 +530,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-dev
       BITSWAN_DEPLOYMENT_ID: external-frontend-deployment-management-dev
       BITSWAN_DEPLOY_CHECKSUM: 5c18b6e4bc3272375e5a4c04243c95a85522cd77
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:51.236070Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:33.673515Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -567,7 +567,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-live-dev
       BITSWAN_DEPLOYMENT_ID: external-frontend-deployment-management-live-dev
       BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:51.467890Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:33.909368Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -604,7 +604,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: staging
       BITSWAN_DEPLOYMENT_ID: external-frontend-deployment-management-staging
       BITSWAN_DEPLOY_CHECKSUM: 5c18b6e4bc3272375e5a4c04243c95a85522cd77
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:51.733404Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:34.163376Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -641,7 +641,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-dev
       BITSWAN_DEPLOYMENT_ID: external-frontend-dev
       BITSWAN_DEPLOY_CHECKSUM: 0d00970e7026580366954fd12c2ea25d03992e36
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:52.228883Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:34.671229Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -678,7 +678,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-live-dev
       BITSWAN_DEPLOYMENT_ID: external-frontend-live-dev
       BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:52.478547Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:34.937997Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -715,7 +715,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: staging
       BITSWAN_DEPLOYMENT_ID: external-frontend-staging
       BITSWAN_DEPLOY_CHECKSUM: 0d00970e7026580366954fd12c2ea25d03992e36
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:52.736757Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:35.122893Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -751,7 +751,7 @@ services:
       BITSWAN_AUTOMATION_URL: https://deployment-management-internal-frontend.bitswan-devops-1.bswn.io
       BITSWAN_DEPLOYMENT_ID: internal-frontend
       BITSWAN_DEPLOY_CHECKSUM: b79a86623d2cb8120f15d30c2f302db2b3c76521
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:52.971897Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:35.346056Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -806,7 +806,7 @@ services:
       BITSWAN_AUTOMATION_URL: https://deployment-management-internal-frontend-deployment-management.bitswan-devops-1.bswn.io
       BITSWAN_DEPLOYMENT_ID: internal-frontend-deployment-management
       BITSWAN_DEPLOY_CHECKSUM: 761f7d00b96d95319df33d16ee8f16e225e90848
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:53.469167Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:35.844521Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -853,20 +853,20 @@ services:
     volumes:
     - /root/.config/bitswan/certauthorities:/usr/local/share/ca-certificates/custom:ro
     - /root/.config/bitswan/workspaces/deployment-management/gitops/761f7d00b96d95319df33d16ee8f16e225e90848:/app/
-  internal-frontend-deployment-management-4e2d6bc7-live-dev:
-    container_name: internal-frontend-deployment-management-4e2d6bc7-live-dev
+  internal-frontend-deployment-management-4e2d-live-dev:
+    container_name: internal-frontend-deployment-management-4e2d-live-dev
     environment:
       BITSWAN_ALLOWED_GROUP: /WingsData s.r.o.
       BITSWAN_AUTOMATION_STAGE: live-dev
-      BITSWAN_AUTOMATION_URL: https://deployment-management-internal-3806-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_AUTOMATION_URL: https://deploymen-internal-frontend-deployment-management-4e2d-live-dev.bitswan-devops-1.bswn.io
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-wt-coding-agent-staging-live-dev
       BITSWAN_DEPLOYMENT_ID: internal-frontend-deployment-management-wt-coding-agent-staging-live-dev
       BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:55.512092Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:37.937540Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
-      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-deployment-management-wt-coding-agent-staging-live-dev.bitswan-devops-1.bswn.io
+      BITSWAN_URL_TEMPLATE: https://deployment-management-{name}-4e2d-live-dev.bitswan-devops-1.bswn.io
       BITSWAN_WORKSPACE_NAME: deployment-management
       KEYCLOAK_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
       KEYCLOAK_REALM: master
@@ -883,7 +883,7 @@ services:
       OAUTH2_PROXY_OIDC_ISSUER_URL: https://keycloak.bitswan.ai/realms/master
       OAUTH2_PROXY_PASS_ACCESS_TOKEN: 'true'
       OAUTH2_PROXY_PROVIDER: keycloak-oidc
-      OAUTH2_PROXY_REDIRECT_URL: https://deployment-management-internal-3806-live-dev.bitswan-devops-1.bswn.io/oauth2/callback
+      OAUTH2_PROXY_REDIRECT_URL: https://deploymen-internal-frontend-deployment-management-4e2d-live-dev.bitswan-devops-1.bswn.io/oauth2/callback
       OAUTH2_PROXY_SCOPE: openid email profile
       OAUTH2_PROXY_SET_XAUTHREQUEST: 'true'
       OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: 'true'
@@ -901,7 +901,7 @@ services:
     networks:
       bitswan_network:
         aliases:
-        - deployment-management-internal-3806-live-dev.bitswan-devops-1.bswn.io
+        - deploymen-internal-frontend-deployment-management-4e2d-live-dev.bitswan-devops-1.bswn.io
     restart: always
     ulimits:
       nofile:
@@ -919,7 +919,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-dev
       BITSWAN_DEPLOYMENT_ID: internal-frontend-deployment-management-dev
       BITSWAN_DEPLOY_CHECKSUM: 761f7d00b96d95319df33d16ee8f16e225e90848
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:53.986278Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:36.380435Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -975,7 +975,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-live-dev
       BITSWAN_DEPLOYMENT_ID: internal-frontend-deployment-management-live-dev
       BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:54.490947Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:36.881226Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -1031,7 +1031,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: staging
       BITSWAN_DEPLOYMENT_ID: internal-frontend-deployment-management-staging
       BITSWAN_DEPLOY_CHECKSUM: 761f7d00b96d95319df33d16ee8f16e225e90848
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:55.008779Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:37.409442Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -1087,7 +1087,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-dev
       BITSWAN_DEPLOYMENT_ID: internal-frontend-dev
       BITSWAN_DEPLOY_CHECKSUM: b79a86623d2cb8120f15d30c2f302db2b3c76521
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:56.020035Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:38.499140Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -1143,7 +1143,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: deployment-management-live-dev
       BITSWAN_DEPLOYMENT_ID: internal-frontend-live-dev
       BITSWAN_DEPLOY_CHECKSUM: live-dev
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:56.526433Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:38.989416Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
@@ -1199,7 +1199,7 @@ services:
       BITSWAN_DEPLOYMENT_CONTEXT: staging
       BITSWAN_DEPLOYMENT_ID: internal-frontend-staging
       BITSWAN_DEPLOY_CHECKSUM: b79a86623d2cb8120f15d30c2f302db2b3c76521
-      BITSWAN_DEPLOY_TIME: '2026-04-08T19:36:57.066886Z'
+      BITSWAN_DEPLOY_TIME: '2026-04-08T19:59:39.460343Z'
       BITSWAN_GITOPS_DOMAIN: bitswan-devops-1.bswn.io
       BITSWAN_URL_PREFIX: https://deployment-management-
       BITSWAN_URL_SUFFIX: .bitswan-devops-1.bswn.io
