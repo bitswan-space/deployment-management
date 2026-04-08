@@ -64,6 +64,10 @@ deployments:
     checksum: live-dev
     relative_path: deployment-management/external-frontend
     stage: live-dev
+  external-frontend-deployment-management-staging:
+    active: true
+    checksum: 5c18b6e4bc3272375e5a4c04243c95a85522cd77
+    stage: staging
   external-frontend-deployment-management-wt-coding-agent-staging-live-dev:
     active: true
     checksum: live-dev
