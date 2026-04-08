@@ -60,7 +60,7 @@ deployments:
     stage: ''
   external-frontend-deployment-management-dev:
     active: true
-    checksum: 5c18b6e4bc3272375e5a4c04243c95a85522cd77
+    checksum: c9455c96c559c022059d9fe08d3b1324ab5b2307
     relative_path: deployment-management/external-frontend
     stage: dev
   external-frontend-deployment-management-live-dev:
