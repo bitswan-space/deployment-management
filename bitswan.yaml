@@ -21,6 +21,11 @@ deployments:
     active: true
     checksum: ea6fea19c4b4d14e63dc994d2301023f7830b463
     stage: staging
+  backend-deployment-management-wt-coding-agent-staging-live-dev:
+    active: true
+    checksum: live-dev
+    relative_path: worktrees/coding-agent-staging/deployment-management/backend
+    stage: live-dev
   backend-dev:
     active: true
     checksum: c51f60505bbd1bbadb702f432a35d80ab651e2fc
