@@ -1,0 +1,15 @@
+[deployment]
+image = "internal/backend:sha183ea69727896fe7cb777dd76baf7b477d5aa8ac"
+expose = true
+id = "406b668e-3ad7-42ea-bf05-cd84c1750b2d"
+
+[services.postgres]
+enabled = true
+
+[services.minio]
+enabled = true
+
+[secrets]
+dev=["dockerhub"]
+staging=["dockerhub"]
+production=["dockerhub"]
