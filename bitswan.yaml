@@ -19,7 +19,7 @@ deployments:
     stage: live-dev
   backend-deployment-management-staging:
     active: true
-    checksum: bf30301a11c0af5cbc1048bde76ab2b14159e933
+    checksum: ea6fea19c4b4d14e63dc994d2301023f7830b463
     stage: staging
   backend-deployment-management-wt-coding-agent-staging-live-dev:
     active: true
