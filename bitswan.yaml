@@ -67,7 +67,9 @@ deployments:
     stage: dev
   external-frontend-deployment-management-live-dev:
     active: true
+    automation_name: external-frontend
     checksum: live-dev
+    context: deployment-management
     relative_path: deployment-management/external-frontend
     stage: live-dev
   external-frontend-deployment-management-staging:
