@@ -14,7 +14,9 @@ deployments:
     stage: dev
   backend-deployment-management-live-dev:
     active: true
+    automation_name: backend
     checksum: live-dev
+    context: deployment-management
     relative_path: deployment-management/backend
     stage: live-dev
   backend-deployment-management-staging:
