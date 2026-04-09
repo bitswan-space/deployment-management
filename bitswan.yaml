@@ -112,6 +112,13 @@ deployments:
     active: true
     checksum: 761f7d00b96d95319df33d16ee8f16e225e90848
     stage: ''
+  internal-frontend-deployment-management-dev:
+    active: true
+    automation_name: internal-frontend
+    checksum: 8362aa30e72408b2442d291510ba6dad177cd7de
+    context: deployment-management
+    relative_path: deployment-management/internal-frontend
+    stage: dev
   internal-frontend-deployment-management-live-dev:
     active: true
     automation_name: internal-frontend
