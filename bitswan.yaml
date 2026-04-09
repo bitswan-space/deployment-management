@@ -9,7 +9,9 @@ deployments:
     stage: ''
   backend-deployment-management-dev:
     active: true
+    automation_name: backend
     checksum: 3cf337ac96d92e9d302a56649f0b5fd50d0b17a4
+    context: deployment-management
     relative_path: deployment-management/backend
     stage: dev
   backend-deployment-management-live-dev:
