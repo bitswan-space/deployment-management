@@ -65,18 +65,6 @@ deployments:
     active: true
     checksum: 761f7d00b96d95319df33d16ee8f16e225e90848
     stage: staging
-  internal-frontend-live-dev:
-    active: true
-    checksum: live-dev
-    expose: false
-    expose_to:
-    - /WingsData s.r.o.
-    id: 6d205ba9-cf63-44ee-a1aa-d113ceb43fe4
-    image: internal/internal-frontend:sha85dcfbd49c923c4f2ca387d3041e22062dac4d5a
-    mount_path: /app/
-    port: 8080
-    relative_path: deployment-management/internal-frontend
-    stage: live-dev
   internal-frontend-staging:
     active: true
     checksum: b79a86623d2cb8120f15d30c2f302db2b3c76521
