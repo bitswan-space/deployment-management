@@ -21,21 +21,6 @@ deployments:
     active: true
     checksum: ea6fea19c4b4d14e63dc994d2301023f7830b463
     stage: staging
-  backend-live-dev:
-    active: true
-    checksum: live-dev
-    expose: true
-    id: 406b668e-3ad7-42ea-bf05-cd84c1750b2d
-    image: internal/backend:sha183ea69727896fe7cb777dd76baf7b477d5aa8ac
-    mount_path: /app/
-    port: 8080
-    relative_path: deployment-management/backend
-    services:
-      minio:
-        enabled: true
-      postgres:
-        enabled: true
-    stage: live-dev
   backend-staging:
     active: true
     checksum: c51f60505bbd1bbadb702f432a35d80ab651e2fc
