@@ -21,11 +21,6 @@ deployments:
     active: true
     checksum: ea6fea19c4b4d14e63dc994d2301023f7830b463
     stage: staging
-  backend-dev:
-    active: true
-    checksum: c51f60505bbd1bbadb702f432a35d80ab651e2fc
-    relative_path: deployment-management/backend
-    stage: dev
   backend-live-dev:
     active: true
     checksum: live-dev
