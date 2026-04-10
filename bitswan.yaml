@@ -21,6 +21,13 @@ deployments:
     active: true
     checksum: ea6fea19c4b4d14e63dc994d2301023f7830b463
     stage: staging
+  backend-wt-tims-dev-tree-deployment-management-live-dev:
+    active: true
+    automation_name: backend
+    checksum: live-dev
+    context: wt-tims-dev-tree-deployment-management
+    relative_path: worktrees/tims-dev-tree/deployment-management/backend
+    stage: live-dev
   external-frontend-deployment-management:
     active: true
     checksum: 5c18b6e4bc3272375e5a4c04243c95a85522cd77
