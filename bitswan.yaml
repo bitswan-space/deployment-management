@@ -65,10 +65,6 @@ deployments:
     active: true
     checksum: 761f7d00b96d95319df33d16ee8f16e225e90848
     stage: staging
-  internal-frontend-staging:
-    active: true
-    checksum: b79a86623d2cb8120f15d30c2f302db2b3c76521
-    stage: staging
   internal-frontend-wt-tims-dev-tree-deployment-management-live-dev:
     active: true
     automation_name: internal-frontend
