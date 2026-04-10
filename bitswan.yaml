@@ -43,10 +43,6 @@ deployments:
     active: true
     checksum: 5c18b6e4bc3272375e5a4c04243c95a85522cd77
     stage: staging
-  internal-frontend:
-    active: true
-    checksum: b79a86623d2cb8120f15d30c2f302db2b3c76521
-    stage: ''
   internal-frontend-deployment-management:
     active: true
     checksum: 761f7d00b96d95319df33d16ee8f16e225e90848
