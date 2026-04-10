@@ -21,10 +21,6 @@ deployments:
     active: true
     checksum: ea6fea19c4b4d14e63dc994d2301023f7830b463
     stage: staging
-  external-frontend:
-    active: true
-    checksum: 0d00970e7026580366954fd12c2ea25d03992e36
-    stage: ''
   external-frontend-deployment-management:
     active: true
     checksum: 5c18b6e4bc3272375e5a4c04243c95a85522cd77
