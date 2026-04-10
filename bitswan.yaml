@@ -50,6 +50,13 @@ deployments:
     active: true
     checksum: 5c18b6e4bc3272375e5a4c04243c95a85522cd77
     stage: staging
+  external-frontend-wt-tims-dev-tree-deployment-management-live-dev:
+    active: true
+    automation_name: external-frontend
+    checksum: live-dev
+    context: wt-tims-dev-tree-deployment-management
+    relative_path: worktrees/tims-dev-tree/deployment-management/external-frontend
+    stage: live-dev
   internal-frontend-deployment-management:
     active: true
     checksum: 761f7d00b96d95319df33d16ee8f16e225e90848
@@ -72,3 +79,10 @@ deployments:
     active: true
     checksum: 761f7d00b96d95319df33d16ee8f16e225e90848
     stage: staging
+  internal-frontend-wt-tims-dev-tree-deployment-management-live-dev:
+    active: true
+    automation_name: internal-frontend
+    checksum: live-dev
+    context: wt-tims-dev-tree-deployment-management
+    relative_path: worktrees/tims-dev-tree/deployment-management/internal-frontend
+    stage: live-dev
