@@ -65,10 +65,3 @@ deployments:
     active: true
     checksum: 761f7d00b96d95319df33d16ee8f16e225e90848
     stage: staging
-  internal-frontend-wt-tims-dev-tree-deployment-management-live-dev:
-    active: true
-    automation_name: internal-frontend
-    checksum: live-dev
-    context: wt-tims-dev-tree-deployment-management
-    relative_path: worktrees/tims-dev-tree/deployment-management/internal-frontend
-    stage: live-dev
