@@ -52,7 +52,9 @@ deployments:
     stage: live-dev
   external-frontend-deployment-management-staging:
     active: true
-    checksum: 5c18b6e4bc3272375e5a4c04243c95a85522cd77
+    automation_name: external-frontend
+    checksum: f2c7edfe4b9dc7d3678af56d7c61c0d90e068818
+    context: deployment-management
     stage: staging
   external-frontend-wt-tims-dev-tree-deployment-management-live-dev:
     active: true
