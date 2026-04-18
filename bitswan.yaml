@@ -19,7 +19,9 @@ deployments:
     stage: live-dev
   backend-deployment-management-staging:
     active: true
-    checksum: ea6fea19c4b4d14e63dc994d2301023f7830b463
+    automation_name: backend
+    checksum: 3cf337ac96d92e9d302a56649f0b5fd50d0b17a4
+    context: deployment-management
     stage: staging
   backend-wt-tims-dev-tree-deployment-management-live-dev:
     active: true
