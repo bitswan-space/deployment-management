@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"sort"
 	"sync"
 	"time"
 )
@@ -71,6 +72,14 @@ func (app *App) handleListDockerTagsPublic(w http.ResponseWriter, r *http.Reques
 		writeError(w, http.StatusBadGateway, "failed to list tags from Docker Hub")
 		return
 	}
+
+	// Sort newest-first by last_updated. Docker Hub's v2 tags endpoint
+	// appears to ignore `ordering=-last_updated` and returns oldest-first,
+	// so we normalize here. `last_updated` is an RFC 3339 timestamp which
+	// sorts correctly as a string (ISO 8601 lexicographic order).
+	sort.SliceStable(tags, func(i, j int) bool {
+		return tags[i].LastUpdated > tags[j].LastUpdated
+	})
 
 	dockerHubCacheMu.Lock()
 	dockerHubCache[repo] = dockerHubCacheEntry{tags: tags, fetchedAt: time.Now()}
