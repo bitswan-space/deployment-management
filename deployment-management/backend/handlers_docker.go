@@ -135,6 +135,7 @@ func (app *App) handleListPromotions(w http.ResponseWriter, r *http.Request) {
 		query = query.Where("repository = ?", repo)
 	}
 	if err := query.Find(&promotions).Error; err != nil {
+		log.Printf("error listing promotions: %v", err)
 		writeError(w, http.StatusInternalServerError, "failed to list promotions")
 		return
 	}

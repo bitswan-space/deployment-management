@@ -54,7 +54,16 @@ func writeJSON(w http.ResponseWriter, status int, v any) {
 }
 
 func writeError(w http.ResponseWriter, status int, msg string) {
+	log.Printf("[ERROR] HTTP %d: %s", status, msg)
 	writeJSON(w, status, map[string]string{"detail": msg})
+}
+
+// loggingMiddleware logs every incoming request.
+func loggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("[REQUEST] %s %s from %s", r.Method, r.URL.Path, r.RemoteAddr)
+		next.ServeHTTP(w, r)
+	})
 }
 
 // corsMiddleware wraps an http.Handler with permissive CORS headers.
@@ -78,6 +87,8 @@ func corsMiddleware(next http.Handler) http.Handler {
 }
 
 func main() {
+	log.SetOutput(os.Stdout)
+
 	db := mustInitDB()
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()
@@ -114,8 +125,10 @@ func main() {
 	mux.Handle("POST /internal/automation/publish", app.requireAuth(http.HandlerFunc(app.handlePublishRelease)))
 	mux.Handle("POST /internal/automation/unpublish", app.requireAuth(http.HandlerFunc(app.handleUnpublishRelease)))
 
-	handler := corsMiddleware(mux)
+	handler := loggingMiddleware(corsMiddleware(mux))
 
+	log.Println("=== BACKEND BUILD 2026-04-08T18:00 WITH REQUEST LOGGING ===")
+	log.Printf("stage=%s minio_host=%s", envOr("BITSWAN_AUTOMATION_STAGE", "unknown"), envOr("MINIO_HOST", "localhost"))
 	log.Println("listening on :8080")
 	if err := http.ListenAndServe(":8080", handler); err != nil {
 		log.Fatal(err)

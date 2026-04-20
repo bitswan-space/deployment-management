@@ -1,0 +1,1075 @@
+{
+  "admin": {
+    "listen": "0.0.0.0:2019"
+  },
+  "apps": {
+    "http": {
+      "servers": {
+        "srv0": {
+          "listen": [
+            ":80",
+            ":443"
+          ],
+          "routes": [
+            {
+              "@id": "backups_disastery_recovery_gitops_",
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [
+                    {
+                      "dial": "backups-disastery-recovery-gitops:8079"
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "backups-disastery-recovery-gitops."
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "backups_disastery_recovery_editor_",
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [
+                    {
+                      "dial": "backups-disastery-recovery-editor:9999"
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "backups-disastery-recovery-editor."
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "disastery_recovery_gitops_bitswan_devops_1_bswn_io",
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [
+                    {
+                      "dial": "disastery-recovery-gitops:8079"
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "disastery-recovery-gitops.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "disastery_recovery_editor_bitswan_devops_1_bswn_io",
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [
+                    {
+                      "dial": "disastery-recovery-editor:9999"
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "disastery-recovery-editor.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "go-server-dev.disastery-recovery",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "disastery-recovery__go-server-dev:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "disastery-recovery-go-server-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "svc-couchdb-dev.disastery-recovery",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "disastery-recovery__couchdb-dev:5984"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "disastery-recovery--couchdb-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "go-server-dev.disastery-recovery",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "disastery-recovery__go-server-dev:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "disastery-recovery-go-server-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "svc-couchdb.disastery-recovery",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "disastery-recovery__couchdb:5984"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "disastery-recovery--couchdb.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "svc-kafka-dev.disastery-recovery",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "disastery-recovery__kafka-dev-ui:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "disastery-recovery--kafka-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "svc-postgres-dev.disastery-recovery",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "disastery-recovery__postgres-dev-pgadmin:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "disastery-recovery-postgres-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "svc-minio-dev.disastery-recovery",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "disastery-recovery__minio-dev:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "disastery-recovery-minio-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "backend-dev.disastery-recovery",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "disastery-recovery__backend-dev:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "disastery-recovery-backend-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "internal-frontend-dev.disastery-recovery",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "disastery-recovery__internal-frontend-dev:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "disastery-recovery-internal-frontend-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "deployment_manager_gitops_",
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [
+                    {
+                      "dial": "deployment-manager-gitops:8079"
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-manager-gitops."
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "deployment_manager_editor_",
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [
+                    {
+                      "dial": "deployment-manager-editor:9999"
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-manager-editor."
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "deployment_management_gitops_bitswan_devops_1_bswn_io",
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [
+                    {
+                      "dial": "deployment-management-gitops:8079"
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-gitops.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "deployment_management_editor_bitswan_devops_1_bswn_io",
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [
+                    {
+                      "dial": "deployment-management-editor:9999"
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-editor.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "internal-frontend-dev.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__internal-frontend-dev:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-internal-frontend-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "internal-frontend-live-dev.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__internal-frontend-live-dev:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-internal-frontend-live-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "svc-postgres-dev.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__postgres-dev-pgadmin:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-postgres-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "svc-minio-dev.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__minio-dev:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-minio-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "backend-live-dev.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__backend-live-dev:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-backend-live-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "external-frontend-live-dev.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__external-frontend-live-dev:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-external-frontend-live-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "backend-dev.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__backend-dev:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-backend-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "svc-postgres-staging.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__postgres-staging-pgadmin:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-postgres-staging.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "svc-minio-staging.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__minio-staging:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-minio-staging.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "backend-staging.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__backend-staging:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-backend-staging.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "svc-postgres.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__postgres-pgadmin:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-postgres.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "svc-minio.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__minio:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-minio.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "backend.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__backend:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-backend.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "external-frontend-dev.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__external-frontend-dev:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-external-frontend-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "external-frontend-staging.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__external-frontend-staging:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-external-frontend-staging.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "internal-frontend-staging.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__internal-frontend-staging:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-internal-frontend-staging.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "external-frontend.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__external-frontend:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-external-frontend.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "internal-frontend.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__internal-frontend:9999"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-internal-frontend.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "backend-deployment-management-live-dev.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__backend-deployment-management-live-dev:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-backend-deployment-management-live-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            },
+            {
+              "@id": "external-frontend-deployment-management-dev.deployment-management",
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "deployment-management__external-frontend-deployment-management-dev:8080"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "match": [
+                {
+                  "host": [
+                    "deployment-management-external-0fee-dev.bitswan-devops-1.bswn.io"
+                  ]
+                }
+              ],
+              "terminal": true
+            }
+          ]
+        }
+      }
+    },
+    "tls": {
+      "automation": {
+        "policies": [
+          {
+            "issuers": [
+              {
+                "module": "acme"
+              },
+              {
+                "module": "acme",
+                "ca": "https://acme.zerossl.com/v2/DV90",
+                "email": "timothy.hobbs@wingsdata.ai"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

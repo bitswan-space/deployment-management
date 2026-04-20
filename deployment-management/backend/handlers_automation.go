@@ -78,6 +78,8 @@ func (app *App) handleListGitHubReleases(w http.ResponseWriter, r *http.Request)
 
 // handlePublishRelease downloads release assets from GitHub and stores them in MinIO.
 func (app *App) handlePublishRelease(w http.ResponseWriter, r *http.Request) {
+	log.Printf("[PUBLISH] === publish handler entered ===")
+
 	var req struct {
 		ReleaseID int64 `json:"release_id"`
 	}
@@ -85,20 +87,25 @@ func (app *App) handlePublishRelease(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, "invalid JSON body")
 		return
 	}
+	log.Printf("[PUBLISH] request to publish release_id=%d", req.ReleaseID)
 
 	// Check if already published
 	var existing models.AutomationRelease
 	if err := app.db.Where("release_id = ?", req.ReleaseID).First(&existing).Error; err == nil {
+		log.Printf("[PUBLISH] release_id=%d is already published, rejecting", req.ReleaseID)
 		writeError(w, http.StatusConflict, "release is already published")
 		return
 	}
 
 	// Fetch releases from GitHub to find this one
+	log.Printf("[PUBLISH] fetching releases from GitHub...")
 	releases, err := FetchGitHubReleases()
 	if err != nil {
+		log.Printf("[PUBLISH] error fetching GitHub releases: %v", err)
 		writeError(w, http.StatusInternalServerError, "failed to fetch releases from GitHub")
 		return
 	}
+	log.Printf("[PUBLISH] got %d releases from GitHub", len(releases))
 
 	var release *GitHubRelease
 	for _, rel := range releases {
@@ -108,22 +115,30 @@ func (app *App) handlePublishRelease(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if release == nil {
+		log.Printf("[PUBLISH] release_id=%d not found in GitHub releases", req.ReleaseID)
 		writeError(w, http.StatusNotFound, "release not found on GitHub")
 		return
 	}
+	log.Printf("[PUBLISH] found release %s (%s) with %d assets", release.TagName, release.Name, len(release.Assets))
 
 	// Ensure releases bucket exists
 	ctx := context.Background()
+	log.Printf("[PUBLISH] checking MinIO bucket %q...", releasesBucket)
 	exists, err := app.mc.BucketExists(ctx, releasesBucket)
 	if err != nil {
+		log.Printf("[PUBLISH] MinIO BucketExists error: %v", err)
 		writeError(w, http.StatusInternalServerError, "storage error")
 		return
 	}
+	log.Printf("[PUBLISH] bucket %q exists=%v", releasesBucket, exists)
 	if !exists {
+		log.Printf("[PUBLISH] creating bucket %q...", releasesBucket)
 		if err := app.mc.MakeBucket(ctx, releasesBucket, minio.MakeBucketOptions{}); err != nil {
+			log.Printf("[PUBLISH] MakeBucket error: %v", err)
 			writeError(w, http.StatusInternalServerError, "failed to create storage bucket")
 			return
 		}
+		log.Printf("[PUBLISH] bucket %q created", releasesBucket)
 	}
 
 	// Download and store each asset
@@ -134,22 +149,26 @@ func (app *App) handlePublishRelease(w http.ResponseWriter, r *http.Request) {
 	}
 	var storedAssets []assetInfo
 
-	for _, asset := range release.Assets {
+	for i, asset := range release.Assets {
+		log.Printf("[PUBLISH] downloading asset %d/%d: %s from %s", i+1, len(release.Assets), asset.Name, asset.BrowserDownloadURL)
 		data, contentType, err := DownloadGitHubAsset(asset.BrowserDownloadURL)
 		if err != nil {
-			log.Printf("error downloading asset %s: %v", asset.Name, err)
+			log.Printf("[PUBLISH] download failed for %s: %v", asset.Name, err)
 			writeError(w, http.StatusInternalServerError, fmt.Sprintf("failed to download asset: %s", asset.Name))
 			return
 		}
+		log.Printf("[PUBLISH] downloaded %s (%d bytes, %s)", asset.Name, len(data), contentType)
 
 		key := fmt.Sprintf("%s/%s", release.TagName, asset.Name)
+		log.Printf("[PUBLISH] storing asset in MinIO: bucket=%q key=%q", releasesBucket, key)
 		_, err = app.mc.PutObject(ctx, releasesBucket, key, bytes.NewReader(data), int64(len(data)),
 			minio.PutObjectOptions{ContentType: contentType})
 		if err != nil {
-			log.Printf("error storing asset %s: %v", asset.Name, err)
+			log.Printf("[PUBLISH] PutObject failed for %s: %v", asset.Name, err)
 			writeError(w, http.StatusInternalServerError, fmt.Sprintf("failed to store asset: %s", asset.Name))
 			return
 		}
+		log.Printf("[PUBLISH] stored asset %s in MinIO", asset.Name)
 
 		storedAssets = append(storedAssets, assetInfo{
 			Name:        asset.Name,
@@ -162,6 +181,7 @@ func (app *App) handlePublishRelease(w http.ResponseWriter, r *http.Request) {
 	assetsJSON, _ := json.Marshal(storedAssets)
 
 	username := getUsername(r)
+	log.Printf("[PUBLISH] saving release record to DB (user=%s, tag=%s, %d assets)", username, release.TagName, len(storedAssets))
 	record := models.AutomationRelease{
 		ReleaseID:   release.ID,
 		TagName:     release.TagName,
@@ -172,10 +192,12 @@ func (app *App) handlePublishRelease(w http.ResponseWriter, r *http.Request) {
 		PublishedAt: time.Now(),
 	}
 	if err := app.db.Create(&record).Error; err != nil {
+		log.Printf("[PUBLISH] DB save failed: %v", err)
 		writeError(w, http.StatusInternalServerError, "failed to record published release")
 		return
 	}
 
+	log.Printf("[PUBLISH] === release %s published successfully ===", release.TagName)
 	writeJSON(w, http.StatusOK, map[string]any{
 		"status":       "published",
 		"release_id":   release.ID,
@@ -262,6 +284,7 @@ func (app *App) handleDownloadReleaseAsset(w http.ResponseWriter, r *http.Reques
 	ctx := context.Background()
 	obj, err := app.mc.GetObject(ctx, releasesBucket, key, minio.GetObjectOptions{})
 	if err != nil {
+		log.Printf("error fetching asset %q from MinIO: %v", key, err)
 		writeError(w, http.StatusNotFound, "asset not found")
 		return
 	}
@@ -269,6 +292,7 @@ func (app *App) handleDownloadReleaseAsset(w http.ResponseWriter, r *http.Reques
 
 	info, err := obj.Stat()
 	if err != nil {
+		log.Printf("error stat asset %q from MinIO: %v", key, err)
 		writeError(w, http.StatusNotFound, "asset not found")
 		return
 	}
@@ -367,12 +391,14 @@ func (app *App) handleDownloadLatest(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	obj, err := app.mc.GetObject(ctx, releasesBucket, key, minio.GetObjectOptions{})
 	if err != nil {
+		log.Printf("error fetching latest asset %q from MinIO: %v", key, err)
 		writeError(w, http.StatusNotFound, "asset not found")
 		return
 	}
 	defer obj.Close()
 
 	if _, err := obj.Stat(); err != nil {
+		log.Printf("error stat latest asset %q from MinIO: %v", key, err)
 		writeError(w, http.StatusNotFound, "asset not found")
 		return
 	}
@@ -380,6 +406,7 @@ func (app *App) handleDownloadLatest(w http.ResponseWriter, r *http.Request) {
 	// Extract the binary from the .tar.gz
 	gzr, err := gzip.NewReader(obj)
 	if err != nil {
+		log.Printf("error decompressing asset %q: %v", key, err)
 		writeError(w, http.StatusInternalServerError, "failed to decompress asset")
 		return
 	}
@@ -389,6 +416,7 @@ func (app *App) handleDownloadLatest(w http.ResponseWriter, r *http.Request) {
 	for {
 		hdr, err := tr.Next()
 		if err != nil {
+			log.Printf("error reading tar archive %q: %v", key, err)
 			writeError(w, http.StatusInternalServerError, "no binary found in archive")
 			return
 		}

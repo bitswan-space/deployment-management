@@ -29,6 +29,7 @@
   "automation.confirmPublish": "Stáhnout a publikovat toto vydání? Soubory budou veřejně dostupné.",
   "automation.confirmUnpublish": "Odebrat toto vydání z veřejných stahování?",
   "automation.publishFailed": "Publikování selhalo",
+  "automation.unpublishFailed": "Zrušení publikace selhalo",
   "language.en": "English",
   "language.cs": "Čeština"
 }

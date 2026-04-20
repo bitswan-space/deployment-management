@@ -29,6 +29,7 @@
   "automation.confirmPublish": "Download and publish this release? Assets will be made publicly available.",
   "automation.confirmUnpublish": "Remove this release from public downloads?",
   "automation.publishFailed": "Publishing failed",
+  "automation.unpublishFailed": "Unpublishing failed",
   "language.en": "English",
   "language.cs": "Čeština"
 }

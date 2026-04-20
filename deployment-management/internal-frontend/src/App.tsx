@@ -80,6 +80,7 @@ function DockerRepoSection({ repo, label }: { repo: string; label: string }) {
   const [loading, setLoading] = useState(true)
   const [promoting, setPromoting] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [actionError, setActionError] = useState<string | null>(null)
 
   const fetchStatus = async () => {
     try {
@@ -99,11 +100,12 @@ function DockerRepoSection({ repo, label }: { repo: string; label: string }) {
   const handlePromote = async (tag: string) => {
     if (!confirm(t('docker.confirmPromote', { tag, repo }))) return
     setPromoting(tag)
+    setActionError(null)
     try {
       await backend.post('/docker/promote', { repository: repo, tag })
       await fetchStatus()
     } catch (err: any) {
-      alert(`${t('docker.promoteFailed')}: ${err.message}`)
+      setActionError(`${t('docker.promoteFailed')}: ${err.message}`)
     } finally {
       setPromoting(null)
     }
@@ -116,6 +118,12 @@ function DockerRepoSection({ repo, label }: { repo: string; label: string }) {
   return (
     <div className="card">
       <h2>{label}</h2>
+      {actionError && (
+        <div className="error-banner">
+          <span>{actionError}</span>
+          <button className="error-dismiss" onClick={() => setActionError(null)}>&times;</button>
+        </div>
+      )}
       <p className="repo-subtitle">{t('docker.stagingRepo')}: <code>{status.staging_repo}</code> | {t('docker.productionRepo')}: <code>{status.repository}</code></p>
 
       <h3>{t('docker.stagingImages')}</h3>
@@ -177,6 +185,7 @@ function AutomationSection() {
   const [loading, setLoading] = useState(true)
   const [publishing, setPublishing] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [actionError, setActionError] = useState<string | null>(null)
 
   const fetchReleases = async () => {
     try {
@@ -196,11 +205,12 @@ function AutomationSection() {
   const handlePublish = async (releaseId: number) => {
     if (!confirm(t('automation.confirmPublish'))) return
     setPublishing(releaseId)
+    setActionError(null)
     try {
       await backend.post('/automation/publish', { release_id: releaseId })
       await fetchReleases()
     } catch (err: any) {
-      alert(`${t('automation.publishFailed')}: ${err.message}`)
+      setActionError(`${t('automation.publishFailed')}: ${err.message}`)
     } finally {
       setPublishing(null)
     }
@@ -208,11 +218,12 @@ function AutomationSection() {
 
   const handleUnpublish = async (releaseId: number) => {
     if (!confirm(t('automation.confirmUnpublish'))) return
+    setActionError(null)
     try {
       await backend.post('/automation/unpublish', { release_id: releaseId })
       await fetchReleases()
     } catch (err: any) {
-      alert(`Error: ${err.message}`)
+      setActionError(`${t('automation.unpublishFailed')}: ${err.message}`)
     }
   }
 
@@ -222,6 +233,12 @@ function AutomationSection() {
   return (
     <div className="card">
       <h2>{t('automation.title')}</h2>
+      {actionError && (
+        <div className="error-banner">
+          <span>{actionError}</span>
+          <button className="error-dismiss" onClick={() => setActionError(null)}>&times;</button>
+        </div>
+      )}
       <p className="section-description">{t('automation.description')}</p>
 
       {releases.length > 0 ? (
