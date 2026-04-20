@@ -111,6 +111,9 @@ func main() {
 	mux.HandleFunc("GET /public/automation/releases", app.handleListPublishedReleases)
 	mux.HandleFunc("GET /public/automation/latest", app.handleDownloadLatest)
 	mux.HandleFunc("GET /public/automation/download/{tag}/{asset}", app.handleDownloadReleaseAsset)
+	// Docker Hub tag proxy for the AOC frontend (bypasses browser CORS).
+	// Allowlisted to bitswan/{gitops,gitops-staging,bitswan-editor,bitswan-editor-staging}.
+	mux.HandleFunc("GET /public/docker-hub/tags", app.handleListDockerTagsPublic)
 
 	// Internal routes (auth required) - Docker image management
 	mux.Handle("GET /internal/", app.requireAuth(http.HandlerFunc(app.handleInternalRoot)))
