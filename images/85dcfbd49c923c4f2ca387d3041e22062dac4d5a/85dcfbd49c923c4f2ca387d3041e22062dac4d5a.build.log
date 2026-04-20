@@ -1,4 +1,4 @@
-Build started at 2026-03-19T17:59:16.944107
+Build started at 2026-04-20T18:06:44.774460
 Step 1/9 : FROM node:20-alpine
  ---> b88333c42c23
 Step 2/9 : RUN npm install -g serve
@@ -26,5 +26,5 @@ Step 9/9 : ENTRYPOINT ["/entrypoint.sh"]
  ---> Using cache
  ---> 6c8a1a81e366
 Successfully built 6c8a1a81e366
-Successfully tagged internal/external-frontend:sha85dcfbd49c923c4f2ca387d3041e22062dac4d5a
-Build completed successfully at 2026-03-19T17:59:17.271172
+Successfully tagged internal/deployment-management-deployment-management-external-frontend:sha85dcfbd49c923c4f2ca387d3041e22062dac4d5a
+Build completed successfully at 2026-04-20T18:06:44.955905
