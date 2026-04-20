@@ -1,0 +1,4 @@
+[deployment]
+image = "internal/deployment-management-deployment-management-external-frontend:sha85dcfbd49c923c4f2ca387d3041e22062dac4d5a"
+expose = true
+id = "dd8d7632-ce94-4b69-95e6-fe17d190ac78"
