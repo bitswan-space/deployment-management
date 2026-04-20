@@ -25,12 +25,6 @@ deployments:
     context: wt-tims-dev-tree-deployment-management
     relative_path: worktrees/tims-dev-tree/deployment-management/backend
     stage: live-dev
-  external-frontend-deployment-management:
-    active: true
-    automation_name: external-frontend
-    checksum: f2c7edfe4b9dc7d3678af56d7c61c0d90e068818
-    context: deployment-management
-    stage: ''
   external-frontend-deployment-management-dev:
     active: true
     automation_name: external-frontend
