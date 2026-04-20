@@ -87,7 +87,7 @@ deployments:
   internal-frontend-deployment-management-staging:
     active: true
     automation_name: internal-frontend
-    checksum: b586d4be65e50ac8feb075f14121e5f0fbd785f6
+    checksum: 49672096a2ac6f173f0d548602415e9c67e481d9
     context: deployment-management
     stage: staging
   internal-frontend-wt-tims-dev-tree-deployment-management-live-dev:
