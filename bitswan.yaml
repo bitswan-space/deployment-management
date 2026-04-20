@@ -1,4 +1,10 @@
 deployments:
+  backend-deployment-management:
+    active: true
+    automation_name: backend
+    checksum: 5e6c4b59ff72c4303b6fdaab4ae2846ed9b43643
+    context: deployment-management
+    stage: ''
   backend-deployment-management-dev:
     active: true
     automation_name: backend
