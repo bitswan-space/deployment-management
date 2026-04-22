@@ -60,7 +60,7 @@ deployments:
   internal-frontend-deployment-management-dev:
     active: true
     automation_name: internal-frontend
-    checksum: 49672096a2ac6f173f0d548602415e9c67e481d9
+    checksum: 5f2ec0710880df5bf6c112d66ba72ef205bcf96c
     context: deployment-management
     relative_path: deployment-management/internal-frontend
     stage: dev
