@@ -77,3 +77,10 @@ deployments:
     context: wt-tims-dev-tree-deployment-management
     relative_path: worktrees/tims-dev-tree/deployment-management/internal-frontend
     stage: live-dev
+  tests-wt-tims-dev-tree-deployment-management-live-dev:
+    active: true
+    automation_name: tests
+    checksum: live-dev
+    context: wt-tims-dev-tree-deployment-management
+    relative_path: worktrees/tims-dev-tree/deployment-management/tests
+    stage: live-dev
