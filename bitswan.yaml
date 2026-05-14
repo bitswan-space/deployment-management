@@ -31,6 +31,13 @@ deployments:
     checksum: 748e431259b9b0a508f1af623b54e8b8ef130675
     context: deployment-management
     stage: ''
+  external-frontend-deployment-management-dev:
+    active: true
+    automation_name: external-frontend
+    checksum: 8d0db6c9e9b2706c8a933466f7d9765500bb4b57
+    context: deployment-management
+    relative_path: deployment-management/external-frontend
+    stage: dev
   external-frontend-deployment-management-staging:
     active: true
     automation_name: external-frontend
