@@ -5,6 +5,13 @@ deployments:
     checksum: 5e6c4b59ff72c4303b6fdaab4ae2846ed9b43643
     context: deployment-management
     stage: ''
+  backend-deployment-management-dev:
+    active: true
+    automation_name: backend
+    checksum: 0960ef64515665a9563b56c2ef07506400cf6cf2
+    context: deployment-management
+    relative_path: deployment-management/backend
+    stage: dev
   backend-deployment-management-staging:
     active: true
     automation_name: backend
@@ -43,6 +50,13 @@ deployments:
     checksum: 49672096a2ac6f173f0d548602415e9c67e481d9
     context: deployment-management
     stage: ''
+  internal-frontend-deployment-management-dev:
+    active: true
+    automation_name: internal-frontend
+    checksum: 9ded3094aebf66f30c830b4d9eea106884b014d0
+    context: deployment-management
+    relative_path: deployment-management/internal-frontend
+    stage: dev
   internal-frontend-deployment-management-staging:
     active: true
     automation_name: internal-frontend
