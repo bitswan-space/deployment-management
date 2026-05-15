@@ -1,0 +1,33 @@
+Build started at 2026-05-15T16:10:57.838365
+Step 1/10 : FROM golang:1.23-alpine
+ ---> 383395b794df
+Step 2/10 : RUN go install github.com/air-verse/air@v1.61.7
+ ---> Using cache
+ ---> 8554f1e51965
+Step 3/10 : WORKDIR /deps
+ ---> Using cache
+ ---> 7e4309a0f14c
+Step 4/10 : COPY go.mod go.sum ./
+ ---> Using cache
+ ---> 7d3f00a16b5b
+Step 5/10 : RUN go mod download
+ ---> Using cache
+ ---> 2a21ebb43f51
+Step 6/10 : WORKDIR /app
+ ---> Using cache
+ ---> 80cc485b8a63
+Step 7/10 : COPY entrypoint.sh /entrypoint.sh
+ ---> 6c0a5d89b8f4
+Step 8/10 : COPY air.toml /etc/air.toml
+ ---> 15fbcb8484df
+Step 9/10 : RUN chmod +x /entrypoint.sh
+ ---> Running in 409f211ec6cf
+ ---> Removed intermediate container 409f211ec6cf
+ ---> 21b47713aca5
+Step 10/10 : ENTRYPOINT ["/entrypoint.sh"]
+ ---> Running in da423e6e0c08
+ ---> Removed intermediate container da423e6e0c08
+ ---> 1b826a797236
+Successfully built 1b826a797236
+Successfully tagged internal/deployment-management-deployment-management-backend:sha3a4f26e8faba2fba0b21534aa60dd56d86879c5d
+Build completed successfully at 2026-05-15T16:11:17.862691
